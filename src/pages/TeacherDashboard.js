@@ -2837,7 +2837,7 @@ export function navigateTeacherPage(page) {
     }
 
 
-    window.location.replace("/");
+    window.location.replace(import.meta.env.BASE_URL);
 
     return;
   }

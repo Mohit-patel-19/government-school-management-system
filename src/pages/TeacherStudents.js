@@ -1,6 +1,6 @@
 /* =====================================================
    TEACHER STUDENTS
-   FULL FUNCTIONAL VERSION
+   CLEAN + RESPONSIVE + FULL FUNCTIONAL VERSION
 ===================================================== */
 
 let students = [
@@ -16,7 +16,6 @@ let students = [
     result: "80%",
     parentName: "Ramesh Sharma"
   },
-
   {
     id: 2,
     name: "Priya Kumari",
@@ -29,7 +28,6 @@ let students = [
     result: "88%",
     parentName: "Suresh Kumar"
   },
-
   {
     id: 3,
     name: "Amit Patel",
@@ -42,215 +40,935 @@ let students = [
     result: "76%",
     parentName: "Mahesh Patel"
   }
-];
+]
+
+let teacherStudentsClickHandler = null
 
 
 /* =====================================================
-   MAIN STUDENTS PAGE
+   CSS
+===================================================== */
+
+function loadTeacherStudentsCSS() {
+  if (document.getElementById("teacher-students-css")) return
+
+  const style = document.createElement("style")
+
+  style.id = "teacher-students-css"
+
+  style.textContent = `
+    /* ================================
+       MAIN
+    ================================= */
+
+    .teacher-students-page {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    .teacher-students-content {
+      width: 100%;
+      max-width: 1450px;
+      margin: 0 auto;
+      padding: 28px 32px 40px;
+      box-sizing: border-box;
+    }
+
+    /* ================================
+       HEADER
+    ================================= */
+
+    .teacher-students-page .teacher-dashboard-header {
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .teacher-students-header-title {
+      min-width: 0;
+    }
+
+    .teacher-students-header-title h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.3;
+      color: #111827;
+      font-weight: 700;
+    }
+
+    .teacher-students-header-title p {
+      margin: 6px 0 0;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ================================
+       STATS
+    ================================= */
+
+    .teacher-students-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .teacher-student-stat-card {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 13px;
+      box-sizing: border-box;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .teacher-student-stat-icon {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 11px;
+      font-size: 22px;
+    }
+
+    .teacher-stat-blue {
+      background: #eff6ff;
+    }
+
+    .teacher-stat-green {
+      background: #ecfdf5;
+    }
+
+    .teacher-stat-orange {
+      background: #fff7ed;
+    }
+
+    .teacher-stat-purple {
+      background: #f5f3ff;
+    }
+
+    .teacher-student-stat-info {
+      min-width: 0;
+    }
+
+    .teacher-student-stat-info span {
+      display: block;
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    .teacher-student-stat-info strong {
+      display: block;
+      margin-top: 4px;
+      color: #111827;
+      font-size: 24px;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+
+    /* ================================
+       MAIN CARD
+    ================================= */
+
+    .teacher-students-main-card {
+      width: 100%;
+      min-width: 0;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+      box-sizing: border-box;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .teacher-students-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .teacher-students-card-heading {
+      min-width: 0;
+    }
+
+    .teacher-students-card-heading h2 {
+      margin: 0;
+      color: #111827;
+      font-size: 20px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
+    .teacher-students-card-heading p {
+      margin: 5px 0 0;
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .teacher-add-student-btn {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 42px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 8px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .teacher-add-student-btn:hover {
+      background: #1d4ed8;
+    }
+
+    /* ================================
+       SEARCH FILTER
+    ================================= */
+
+    .teacher-student-filters {
+      display: grid;
+      grid-template-columns:
+        minmax(220px, 2fr)
+        minmax(160px, 1fr)
+        minmax(160px, 1fr);
+      gap: 13px;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .teacher-student-filter-input,
+    .teacher-student-filter-select {
+      width: 100%;
+      height: 44px;
+      min-width: 0;
+      padding: 0 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #111827;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .teacher-student-filter-input:focus,
+    .teacher-student-filter-select:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* ================================
+       STUDENT GRID
+    ================================= */
+
+    .teacher-student-list {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .teacher-student-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      width: 100%;
+    }
+
+    /* ================================
+       STUDENT CARD
+    ================================= */
+
+    .teacher-student-card {
+      width: 100%;
+      min-width: 0;
+      padding: 19px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 9px rgba(15, 23, 42, 0.04);
+    }
+
+    .teacher-student-card:hover {
+      border-color: #d5dae2;
+      box-shadow: 0 5px 15px rgba(15, 23, 42, 0.07);
+    }
+
+    .teacher-student-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .teacher-student-identity {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .teacher-student-avatar {
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #eff6ff;
+      font-size: 21px;
+    }
+
+    .teacher-student-name-box {
+      min-width: 0;
+    }
+
+    .teacher-student-name-box h3 {
+      margin: 0;
+      color: #111827;
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .teacher-student-name-box p {
+      margin: 4px 0 0;
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .teacher-student-class-badge {
+      flex: 0 0 auto;
+      padding: 5px 9px;
+      border-radius: 7px;
+      background: #eff6ff;
+      color: #2563eb;
+      font-size: 11px;
+      line-height: 1.3;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* ================================
+       STUDENT DETAILS
+    ================================= */
+
+    .teacher-student-details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .teacher-student-detail {
+      min-width: 0;
+      padding: 11px 12px;
+      border-radius: 8px;
+      background: #f8fafc;
+      box-sizing: border-box;
+    }
+
+    .teacher-student-detail-label {
+      display: block;
+      color: #6b7280;
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .teacher-student-detail-value {
+      display: block;
+      color: #111827;
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    /* ================================
+       ACTIONS
+    ================================= */
+
+    .teacher-student-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+      width: 100%;
+      margin-top: 17px;
+    }
+
+    .teacher-student-action-btn {
+      min-width: 0;
+      height: 38px;
+      padding: 0 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 7px;
+      background: #ffffff;
+      color: #374151;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .teacher-student-action-btn:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .teacher-student-action-btn.delete {
+      color: #dc2626;
+      border-color: #fee2e2;
+      background: #fffafa;
+    }
+
+    .teacher-student-action-btn.delete:hover {
+      background: #fef2f2;
+    }
+
+    /* ================================
+       BACK BUTTON
+    ================================= */
+
+    .teacher-student-back-row {
+      margin-top: 20px;
+    }
+
+    .teacher-student-back-btn {
+      height: 42px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 8px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ================================
+       FORM
+    ================================= */
+
+    .teacher-student-form-card {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 25px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      box-sizing: border-box;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .teacher-student-form-title {
+      margin: 0;
+      color: #111827;
+      font-size: 21px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
+    .teacher-student-form-subtitle {
+      margin: 6px 0 22px;
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .teacher-student-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .teacher-student-form-group {
+      min-width: 0;
+    }
+
+    .teacher-student-form-label {
+      display: block;
+      margin-bottom: 7px;
+      color: #374151;
+      font-size: 13px;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    .teacher-student-form-input,
+    .teacher-student-form-select {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #111827;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .teacher-student-form-input:focus,
+    .teacher-student-form-select:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .teacher-student-form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 19px;
+      border-top: 1px solid #eef0f3;
+    }
+
+    .teacher-student-save-btn,
+    .teacher-student-cancel-btn {
+      height: 42px;
+      padding: 0 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .teacher-student-save-btn {
+      border: 0;
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .teacher-student-cancel-btn {
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      color: #374151;
+    }
+
+    /* ================================
+       PROFILE
+    ================================= */
+
+    .teacher-student-profile-card {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 25px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      box-sizing: border-box;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .teacher-student-profile-top {
+      text-align: center;
+      padding: 8px 10px 22px;
+    }
+
+    .teacher-student-profile-avatar {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #eff6ff;
+      font-size: 40px;
+    }
+
+    .teacher-student-profile-top h2 {
+      margin: 14px 0 5px;
+      color: #111827;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .teacher-student-profile-top p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .teacher-student-profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .teacher-student-profile-item {
+      min-width: 0;
+      padding: 14px;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    .teacher-student-profile-item span {
+      display: block;
+      color: #6b7280;
+      font-size: 11px;
+      line-height: 1.4;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .teacher-student-profile-item strong {
+      display: block;
+      color: #111827;
+      font-size: 14px;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+
+    .teacher-student-profile-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    /* ================================
+       EMPTY
+    ================================= */
+
+    .teacher-student-empty {
+      padding: 55px 20px;
+      text-align: center;
+    }
+
+    .teacher-student-empty-icon {
+      font-size: 48px;
+      line-height: 1;
+    }
+
+    .teacher-student-empty h3 {
+      margin: 15px 0 6px;
+      color: #111827;
+      font-size: 18px;
+    }
+
+    .teacher-student-empty p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    /* ================================
+       TABLET
+    ================================= */
+
+    @media (max-width: 1150px) {
+      .teacher-students-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .teacher-student-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* ================================
+       MOBILE
+    ================================= */
+
+    @media (max-width: 768px) {
+      .teacher-students-content {
+        padding: 20px 16px 30px;
+      }
+
+      .teacher-students-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .teacher-student-stat-card {
+        padding: 15px;
+      }
+
+      .teacher-student-stat-icon {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+        font-size: 18px;
+      }
+
+      .teacher-student-stat-info strong {
+        font-size: 20px;
+      }
+
+      .teacher-students-main-card {
+        padding: 17px;
+      }
+
+      .teacher-students-card-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .teacher-add-student-btn {
+        width: 100%;
+      }
+
+      .teacher-student-filters {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .teacher-student-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .teacher-student-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .teacher-student-profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ================================
+       SMALL MOBILE
+    ================================= */
+
+    @media (max-width: 430px) {
+      .teacher-students-content {
+        padding: 16px 12px 25px;
+      }
+
+      .teacher-students-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .teacher-student-card {
+        padding: 15px;
+      }
+
+      .teacher-student-card-header {
+        align-items: flex-start;
+      }
+
+      .teacher-student-class-badge {
+        font-size: 10px;
+      }
+
+      .teacher-student-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .teacher-student-action-btn {
+        width: 100%;
+      }
+
+      .teacher-student-form-card,
+      .teacher-student-profile-card {
+        padding: 18px 15px;
+      }
+
+      .teacher-student-form-actions {
+        flex-direction: column;
+      }
+
+      .teacher-student-save-btn,
+      .teacher-student-cancel-btn {
+        width: 100%;
+      }
+
+      .teacher-student-profile-actions {
+        flex-direction: column;
+      }
+
+      .teacher-student-profile-actions button {
+        width: 100%;
+      }
+    }
+  `
+
+  document.head.appendChild(style)
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+function teacherSidebar(activePage = "students") {
+  return `
+    <aside class="teacher-sidebar" id="teacherStudentsSidebar">
+
+      <button
+        type="button"
+        class="teacher-mobile-close"
+        id="teacherStudentsMobileClose"
+        aria-label="Close menu"
+      >
+        ✕
+      </button>
+
+      <div class="teacher-sidebar-logo">
+
+        <div class="teacher-logo-icon">
+          🏫
+        </div>
+
+        <div>
+          <div class="teacher-logo-title">
+            Government School
+          </div>
+
+          <div class="teacher-logo-subtitle">
+            Teacher Portal
+          </div>
+        </div>
+
+      </div>
+
+
+      <nav class="teacher-sidebar-nav">
+
+        ${teacherNavItem("dashboard", "🏠", "Dashboard", activePage)}
+
+        ${teacherNavItem("classes", "📚", "My Classes", activePage)}
+
+        ${teacherNavItem("students", "👨‍🎓", "Students", activePage)}
+
+        ${teacherNavItem("attendance", "📅", "Attendance", activePage)}
+
+        ${teacherNavItem("assignments", "📝", "Assignments", activePage)}
+
+        ${teacherNavItem("results", "🏆", "Results", activePage)}
+
+        ${teacherNavItem("study-material", "📖", "Study Material", activePage)}
+
+        ${teacherNavItem("notices", "📢", "Notices", activePage)}
+
+        ${teacherNavItem("messages", "💬", "Messages", activePage)}
+
+        ${teacherNavItem("settings", "⚙️", "Settings", activePage)}
+
+        ${teacherNavItem("logout", "🚪", "Logout", activePage, "teacher-logout-item")}
+
+      </nav>
+
+    </aside>
+
+
+    <div
+      class="teacher-sidebar-overlay"
+      id="teacherStudentsSidebarOverlay"
+    ></div>
+  `
+}
+
+
+function teacherNavItem(
+  page,
+  icon,
+  label,
+  activePage,
+  extraClass = ""
+) {
+  return `
+    <button
+      type="button"
+      class="teacher-nav-item ${
+        activePage === page ? "active" : ""
+      } ${extraClass}"
+      data-page="${page}"
+    >
+      <span>${icon}</span>
+      <span>${label}</span>
+    </button>
+  `
+}
+
+
+/* =====================================================
+   MAIN PAGE
 ===================================================== */
 
 export function TeacherStudents() {
+  loadTeacherStudentsCSS()
 
   return `
-    <div class="dashboard">
+    <div class="teacher-students-page">
 
       ${teacherSidebar("students")}
 
-      <main class="dashboard-main">
+      <main class="teacher-dashboard-main">
 
-        <header class="dashboard-header">
+        <header class="teacher-dashboard-header">
 
-          <div>
-            <h1>Students 👨‍🎓</h1>
-            <p>Manage your students</p>
-          </div>
+          <button
+            type="button"
+            class="teacher-mobile-menu"
+            id="teacherStudentsMobileMenu"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
 
-          <div class="profile">
+          <div class="teacher-students-header-title">
 
-            <div class="profile-avatar">
-              T
-            </div>
+            <h1>
+              Students 👨‍🎓
+            </h1>
 
-            <div class="profile-info">
-              <strong>Teacher Name</strong>
-              <span>Mathematics Teacher</span>
-            </div>
+            <p>
+              Manage your students
+            </p>
 
           </div>
 
         </header>
 
 
-        <section class="dashboard-content">
+        <section class="teacher-students-content">
 
+          ${renderStats()}
 
-          <!-- STATS -->
+          ${renderStudentsMainCard()}
 
-          <div class="stats-grid">
-
-            <div class="stat-card">
-
-              <div class="stat-icon blue">
-                👨‍🎓
-              </div>
-
-              <div>
-                <span>Total Students</span>
-
-                <h2 id="studentTotalCount">
-                  ${students.length}
-                </h2>
-              </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-              <div class="stat-icon green">
-                🏫
-              </div>
-
-              <div>
-                <span>Total Classes</span>
-
-                <h2>
-                  ${getTotalClasses()}
-                </h2>
-              </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-              <div class="stat-icon orange">
-                📅
-              </div>
-
-              <div>
-                <span>Avg Attendance</span>
-
-                <h2>
-                  ${getAverageAttendance()}%
-                </h2>
-              </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-              <div class="stat-icon purple">
-                📊
-              </div>
-
-              <div>
-                <span>Avg Result</span>
-
-                <h2>
-                  ${getAverageResult()}%
-                </h2>
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- STUDENTS CARD -->
-
-          <div class="dashboard-card">
-
-            <div class="card-header">
-
-              <div>
-                <h2>My Students</h2>
-                <p>View and manage all students</p>
-              </div>
-
-              <button
-                type="button"
-                class="view-btn"
-                id="addTeacherStudentBtn"
-              >
-                + Add Student
-              </button>
-
-            </div>
-
-
-            <!-- SEARCH + FILTER -->
-
-            <div
-              style="
-                display:grid;
-                grid-template-columns:
-                  minmax(220px,2fr)
-                  minmax(150px,1fr)
-                  minmax(150px,1fr);
-                gap:15px;
-                margin-bottom:25px;
-              "
-            >
-
-              <input
-                type="text"
-                id="studentSearchInput"
-                placeholder="🔍 Search student name or roll number..."
-              />
-
-
-              <select id="studentClassFilter">
-
-                <option value="all">
-                  All Classes
-                </option>
-
-                ${getClassOptions()}
-
-              </select>
-
-
-              <select id="studentGenderFilter">
-
-                <option value="all">
-                  All Gender
-                </option>
-
-                <option value="Male">
-                  Male
-                </option>
-
-                <option value="Female">
-                  Female
-                </option>
-
-              </select>
-
-            </div>
-
-
-            <!-- STUDENT LIST -->
-
-            <div id="teacherStudentList">
-
-              ${renderStudents()}
-
-            </div>
-
-          </div>
-
-
-          <!-- BACK -->
-
-          <div style="margin-top:20px;">
+          <div class="teacher-student-back-row">
 
             <button
               type="button"
-              class="login-btn"
+              class="teacher-student-back-btn"
               id="backTeacherStudentDashboard"
-              style="max-width:230px;"
             >
               ← Back to Dashboard
             </button>
@@ -262,144 +980,188 @@ export function TeacherStudents() {
       </main>
 
     </div>
-  `;
+  `
 }
 
 
 /* =====================================================
-   SIDEBAR
+   STATS
 ===================================================== */
 
-function teacherSidebar(activePage) {
-
+function renderStats() {
   return `
-    <aside class="sidebar">
+    <div class="teacher-students-stats">
 
-      <div class="sidebar-logo">
+      <div class="teacher-student-stat-card">
 
-        <div class="sidebar-icon">
+        <div class="teacher-student-stat-icon teacher-stat-blue">
+          👨‍🎓
+        </div>
+
+        <div class="teacher-student-stat-info">
+
+          <span>Total Students</span>
+
+          <strong id="studentTotalCount">
+            ${students.length}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="teacher-student-stat-card">
+
+        <div class="teacher-student-stat-icon teacher-stat-green">
           🏫
         </div>
 
-        <div>
-          <h2>Govt. School</h2>
-          <span>Teacher Portal</span>
+        <div class="teacher-student-stat-info">
+
+          <span>Total Classes</span>
+
+          <strong>
+            ${getTotalClasses()}
+          </strong>
+
         </div>
 
       </div>
 
 
-      <nav class="sidebar-nav">
+      <div class="teacher-student-stat-card">
 
-        <button
-          type="button"
-          class="nav-item
-          ${activePage === "dashboard" ? "active" : ""}"
-          data-page="dashboard"
-        >
-          📊 Dashboard
-        </button>
+        <div class="teacher-student-stat-icon teacher-stat-orange">
+          📅
+        </div>
 
+        <div class="teacher-student-stat-info">
 
-        <button
-          type="button"
-          class="nav-item
-          ${activePage === "classes" ? "active" : ""}"
-          data-page="classes"
-        >
-          📚 My Classes
-        </button>
+          <span>Avg Attendance</span>
+
+          <strong>
+            ${getAverageAttendance()}%
+          </strong>
+
+        </div>
+
+      </div>
 
 
-        <button
-          type="button"
-          class="nav-item
-          ${activePage === "students" ? "active" : ""}"
-          data-page="students"
-        >
-          👨‍🎓 Students
-        </button>
+      <div class="teacher-student-stat-card">
+
+        <div class="teacher-student-stat-icon teacher-stat-purple">
+          📊
+        </div>
+
+        <div class="teacher-student-stat-info">
+
+          <span>Avg Result</span>
+
+          <strong>
+            ${getAverageResult()}%
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+  `
+}
 
 
-        <button
-          type="button"
-          class="nav-item"
-          data-page="attendance"
-        >
-          📅 Attendance
-        </button>
+/* =====================================================
+   MAIN STUDENTS CARD
+===================================================== */
 
+function renderStudentsMainCard() {
+  return `
+    <div class="teacher-students-main-card">
 
-        <button
-          type="button"
-          class="nav-item"
-          data-page="assignments"
-        >
-          📝 Assignments
-        </button>
+      <div class="teacher-students-card-header">
 
+        <div class="teacher-students-card-heading">
 
-        <button
-          type="button"
-          class="nav-item"
-          data-page="results"
-        >
-          🏆 Exams & Results
-        </button>
+          <h2>
+            My Students
+          </h2>
 
+          <p>
+            View and manage all students
+          </p>
 
-        <button
-          type="button"
-          class="nav-item"
-          data-page="material"
-        >
-          📖 Study Material
-        </button>
+        </div>
 
 
         <button
           type="button"
-          class="nav-item"
-          data-page="notices"
+          class="teacher-add-student-btn"
+          id="addTeacherStudentBtn"
         >
-          📢 Notices
-        </button>
-
-
-        <button
-          type="button"
-          class="nav-item"
-          data-page="messages"
-        >
-          💬 Messages
-        </button>
-
-      </nav>
-
-
-      <div class="sidebar-bottom">
-
-        <button
-          type="button"
-          class="nav-item"
-          data-page="settings"
-        >
-          ⚙️ Settings
-        </button>
-
-
-        <button
-          type="button"
-          class="nav-item logout"
-          data-page="logout"
-        >
-          🚪 Logout
+          <span>＋</span>
+          <span>Add Student</span>
         </button>
 
       </div>
 
-    </aside>
-  `;
+
+      <div class="teacher-student-filters">
+
+        <input
+          type="text"
+          id="studentSearchInput"
+          class="teacher-student-filter-input"
+          placeholder="🔍 Search student name or roll number..."
+        />
+
+
+        <select
+          id="studentClassFilter"
+          class="teacher-student-filter-select"
+        >
+
+          <option value="all">
+            All Classes
+          </option>
+
+          ${getClassOptions()}
+
+        </select>
+
+
+        <select
+          id="studentGenderFilter"
+          class="teacher-student-filter-select"
+        >
+
+          <option value="all">
+            All Gender
+          </option>
+
+          <option value="Male">
+            Male
+          </option>
+
+          <option value="Female">
+            Female
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div
+        id="teacherStudentList"
+        class="teacher-student-list"
+      >
+        ${renderStudents()}
+      </div>
+
+    </div>
+  `
 }
 
 
@@ -408,27 +1170,26 @@ function teacherSidebar(activePage) {
 ===================================================== */
 
 function getClassOptions() {
-
   const classes = [
     ...new Set(
-      students.map(student =>
-        `${student.className}|${student.section}`
+      students.map(
+        student =>
+          `${student.className}|${student.section}`
       )
     )
-  ];
+  ]
 
-  return classes.map(value => {
+  return classes
+    .map(value => {
+      const [className, section] = value.split("|")
 
-    const [className, section] =
-      value.split("|");
-
-    return `
-      <option value="${escapeAttribute(value)}">
-        ${escapeHTML(className)} - Section ${escapeHTML(section)}
-      </option>
-    `;
-
-  }).join("");
+      return `
+        <option value="${escapeAttribute(value)}">
+          ${escapeHTML(className)} - Section ${escapeHTML(section)}
+        </option>
+      `
+    })
+    .join("")
 }
 
 
@@ -441,51 +1202,36 @@ function renderStudents(
   classFilter = "all",
   genderFilter = "all"
 ) {
+  const searchText = search.trim().toLowerCase()
 
-  const searchText =
-    search.trim().toLowerCase();
+  const filteredStudents = students.filter(student => {
+    const matchesSearch =
+      !searchText ||
+      student.name.toLowerCase().includes(searchText) ||
+      student.rollNo.toLowerCase().includes(searchText) ||
+      student.mobile.includes(searchText)
 
+    const matchesClass =
+      classFilter === "all" ||
+      `${student.className}|${student.section}` === classFilter
 
-  const filteredStudents =
-    students.filter(student => {
+    const matchesGender =
+      genderFilter === "all" ||
+      student.gender === genderFilter
 
-      const matchesSearch =
-        !searchText ||
-        student.name.toLowerCase().includes(searchText) ||
-        student.rollNo.toLowerCase().includes(searchText) ||
-        student.mobile.includes(searchText);
-
-
-      const matchesClass =
-        classFilter === "all" ||
-        `${student.className}|${student.section}` === classFilter;
-
-
-      const matchesGender =
-        genderFilter === "all" ||
-        student.gender === genderFilter;
-
-
-      return (
-        matchesSearch &&
-        matchesClass &&
-        matchesGender
-      );
-
-    });
+    return (
+      matchesSearch &&
+      matchesClass &&
+      matchesGender
+    )
+  })
 
 
   if (filteredStudents.length === 0) {
-
     return `
-      <div
-        style="
-          text-align:center;
-          padding:60px 20px;
-        "
-      >
+      <div class="teacher-student-empty">
 
-        <div style="font-size:55px;">
+        <div class="teacher-student-empty-icon">
           👨‍🎓
         </div>
 
@@ -498,190 +1244,135 @@ function renderStudents(
         </p>
 
       </div>
-    `;
+    `
   }
 
 
   return `
+    <div class="teacher-student-grid">
 
-    <div
-      style="
-        display:grid;
-        grid-template-columns:
-          repeat(auto-fit,minmax(280px,1fr));
-        gap:20px;
-      "
-    >
+      ${filteredStudents
+        .map(student => createStudentCard(student))
+        .join("")}
 
-      ${filteredStudents.map(student => `
-
-        <div
-          class="dashboard-card"
-          style="
-            margin:0;
-            border:1px solid #e7eaf0;
-          "
-        >
-
-          <!-- STUDENT HEADER -->
-
-          <div
-            style="
-              display:flex;
-              justify-content:space-between;
-              align-items:flex-start;
-              gap:10px;
-            "
-          >
-
-            <div
-              style="
-                display:flex;
-                gap:12px;
-                align-items:center;
-              "
-            >
-
-              <div
-                style="
-                  width:48px;
-                  height:48px;
-                  border-radius:50%;
-                  display:flex;
-                  align-items:center;
-                  justify-content:center;
-                  background:#eef4ff;
-                  font-size:22px;
-                "
-              >
-                👨‍🎓
-              </div>
+    </div>
+  `
+}
 
 
-              <div>
+/* =====================================================
+   STUDENT CARD
+===================================================== */
 
-                <h3 style="margin:0;">
-                  ${escapeHTML(student.name)}
-                </h3>
+function createStudentCard(student) {
+  return `
+    <article class="teacher-student-card">
 
-                <p style="margin:4px 0 0;">
-                  Roll No: ${escapeHTML(student.rollNo)}
-                </p>
+      <div class="teacher-student-card-header">
 
-              </div>
+        <div class="teacher-student-identity">
 
-            </div>
-
-
-            <span
-              style="
-                padding:5px 9px;
-                border-radius:8px;
-                background:#eef4ff;
-                font-size:12px;
-                font-weight:600;
-              "
-            >
-              ${escapeHTML(student.className)}
-            </span>
-
+          <div class="teacher-student-avatar">
+            👨‍🎓
           </div>
 
+          <div class="teacher-student-name-box">
 
-          <!-- DETAILS -->
+            <h3>
+              ${escapeHTML(student.name)}
+            </h3>
 
-          <div
-            style="
-              display:grid;
-              grid-template-columns:1fr 1fr;
-              gap:14px;
-              margin-top:20px;
-            "
-          >
-
-            <div>
-              <small>Section</small>
-              <strong>
-                ${escapeHTML(student.section)}
-              </strong>
-            </div>
-
-
-            <div>
-              <small>Gender</small>
-              <strong>
-                ${escapeHTML(student.gender)}
-              </strong>
-            </div>
-
-
-            <div>
-              <small>Attendance</small>
-              <strong>
-                ${escapeHTML(student.attendance)}
-              </strong>
-            </div>
-
-
-            <div>
-              <small>Result</small>
-              <strong>
-                ${escapeHTML(student.result)}
-              </strong>
-            </div>
-
-          </div>
-
-
-          <!-- ACTIONS -->
-
-          <div
-            style="
-              display:flex;
-              gap:8px;
-              flex-wrap:wrap;
-              margin-top:20px;
-            "
-          >
-
-            <button
-              type="button"
-              class="view-btn"
-              data-student-action="view"
-              data-id="${student.id}"
-            >
-              👁️ View
-            </button>
-
-
-            <button
-              type="button"
-              class="view-btn"
-              data-student-action="edit"
-              data-id="${student.id}"
-            >
-              ✏️ Edit
-            </button>
-
-
-            <button
-              type="button"
-              class="view-btn"
-              data-student-action="delete"
-              data-id="${student.id}"
-            >
-              🗑️ Delete
-            </button>
+            <p>
+              Roll No: ${escapeHTML(student.rollNo)}
+            </p>
 
           </div>
 
         </div>
 
-      `).join("")}
+
+        <span class="teacher-student-class-badge">
+          ${escapeHTML(student.className)}
+        </span>
+
+      </div>
+
+
+      <div class="teacher-student-details">
+
+        ${studentDetail(
+          "Section",
+          student.section
+        )}
+
+        ${studentDetail(
+          "Gender",
+          student.gender
+        )}
+
+        ${studentDetail(
+          "Attendance",
+          student.attendance
+        )}
+
+        ${studentDetail(
+          "Result",
+          student.result
+        )}
+
+      </div>
+
+
+      <div class="teacher-student-actions">
+
+        <button
+          type="button"
+          class="teacher-student-action-btn"
+          data-student-action="view"
+          data-id="${student.id}"
+        >
+          👁️ View
+        </button>
+
+        <button
+          type="button"
+          class="teacher-student-action-btn"
+          data-student-action="edit"
+          data-id="${student.id}"
+        >
+          ✏️ Edit
+        </button>
+
+        <button
+          type="button"
+          class="teacher-student-action-btn delete"
+          data-student-action="delete"
+          data-id="${student.id}"
+        >
+          🗑️ Delete
+        </button>
+
+      </div>
+
+    </article>
+  `
+}
+
+
+function studentDetail(label, value) {
+  return `
+    <div class="teacher-student-detail">
+
+      <span class="teacher-student-detail-label">
+        ${escapeHTML(label)}
+      </span>
+
+      <strong class="teacher-student-detail-value">
+        ${escapeHTML(value)}
+      </strong>
 
     </div>
-
-  `;
+  `
 }
 
 
@@ -690,22 +1381,104 @@ function renderStudents(
 ===================================================== */
 
 export function setupTeacherStudents() {
+  loadTeacherStudentsCSS()
 
-  const app =
-    document.querySelector("#app");
+  const app = document.querySelector("#app")
 
   if (!app) {
-    console.error("TeacherStudents: #app not found");
-    return;
+    console.error("TeacherStudents: #app not found")
+    return
   }
 
 
-  app.onclick =
-    handleTeacherStudentClick;
+  if (teacherStudentsClickHandler) {
+    app.removeEventListener(
+      "click",
+      teacherStudentsClickHandler
+    )
+  }
 
 
-  setupStudentFilters();
+  teacherStudentsClickHandler =
+    handleTeacherStudentClick
 
+
+  app.addEventListener(
+    "click",
+    teacherStudentsClickHandler
+  )
+
+
+  setupStudentFilters()
+
+  setupStudentMobileMenu()
+}
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+function setupStudentMobileMenu() {
+  const sidebar =
+    document.getElementById(
+      "teacherStudentsSidebar"
+    )
+
+  const menu =
+    document.getElementById(
+      "teacherStudentsMobileMenu"
+    )
+
+  const close =
+    document.getElementById(
+      "teacherStudentsMobileClose"
+    )
+
+  const overlay =
+    document.getElementById(
+      "teacherStudentsSidebarOverlay"
+    )
+
+
+  if (!sidebar || !menu) {
+    return
+  }
+
+
+  const openSidebar = () => {
+    sidebar.classList.add(
+      "teacher-mobile-open"
+    )
+
+    if (overlay) {
+      overlay.classList.add("active")
+    }
+  }
+
+
+  const closeSidebar = () => {
+    sidebar.classList.remove(
+      "teacher-mobile-open"
+    )
+
+    if (overlay) {
+      overlay.classList.remove("active")
+    }
+  }
+
+
+  menu.onclick = openSidebar
+
+
+  if (close) {
+    close.onclick = closeSidebar
+  }
+
+
+  if (overlay) {
+    overlay.onclick = closeSidebar
+  }
 }
 
 
@@ -714,81 +1487,74 @@ export function setupTeacherStudents() {
 ===================================================== */
 
 function handleTeacherStudentClick(event) {
-
   const addButton =
-    event.target.closest("#addTeacherStudentBtn");
+    event.target.closest(
+      "#addTeacherStudentBtn"
+    )
 
 
   if (addButton) {
+    event.preventDefault()
+    event.stopPropagation()
 
-    event.preventDefault();
-    event.stopPropagation();
-
-    showAddStudentPage();
-
-    return;
+    showAddStudentPage()
+    return
   }
 
 
   const backButton =
-    event.target.closest("#backTeacherStudentDashboard");
+    event.target.closest(
+      "#backTeacherStudentDashboard"
+    )
 
 
   if (backButton) {
+    event.preventDefault()
+    event.stopPropagation()
 
-    event.preventDefault();
-    event.stopPropagation();
-
-    goToDashboard();
-
-    return;
+    goToDashboard()
+    return
   }
 
 
   const actionButton =
-    event.target.closest("[data-student-action]");
+    event.target.closest(
+      "[data-student-action]"
+    )
 
 
   if (!actionButton) {
-    return;
+    return
   }
 
 
-  event.preventDefault();
-  event.stopPropagation();
+  event.preventDefault()
+  event.stopPropagation()
 
 
   const action =
-    actionButton.dataset.studentAction;
-
+    actionButton.dataset.studentAction
 
   const id =
-    Number(actionButton.dataset.id);
+    Number(actionButton.dataset.id)
 
 
   if (action === "view") {
-
-    viewStudent(id);
-    return;
-
+    viewStudent(id)
+    return
   }
 
 
   if (action === "edit") {
-
-    showEditStudentPage(id);
-    return;
-
+    showEditStudentPage(id)
+    return
   }
 
 
   if (action === "delete") {
-
-    deleteStudent(id);
-    return;
-
+    deleteStudent(id)
+    return
   }
-
 }
 
 
@@ -797,603 +1563,294 @@ function handleTeacherStudentClick(event) {
 ===================================================== */
 
 function setupStudentFilters() {
-
   const searchInput =
-    document.querySelector("#studentSearchInput");
+    document.querySelector(
+      "#studentSearchInput"
+    )
 
   const classFilter =
-    document.querySelector("#studentClassFilter");
+    document.querySelector(
+      "#studentClassFilter"
+    )
 
   const genderFilter =
-    document.querySelector("#studentGenderFilter");
+    document.querySelector(
+      "#studentGenderFilter"
+    )
 
 
   function applyFilters() {
-
     const list =
-      document.querySelector("#teacherStudentList");
+      document.querySelector(
+        "#teacherStudentList"
+      )
 
     if (!list) {
-      return;
+      return
     }
 
 
     list.innerHTML =
       renderStudents(
-        searchInput.value,
-        classFilter.value,
-        genderFilter.value
-      );
-
+        searchInput?.value || "",
+        classFilter?.value || "all",
+        genderFilter?.value || "all"
+      )
   }
 
 
   if (searchInput) {
-
     searchInput.oninput =
-      applyFilters;
-
+      applyFilters
   }
 
 
   if (classFilter) {
-
     classFilter.onchange =
-      applyFilters;
-
+      applyFilters
   }
 
 
   if (genderFilter) {
-
     genderFilter.onchange =
-      applyFilters;
-
+      applyFilters
   }
-
 }
 
 
 /* =====================================================
-   ADD STUDENT PAGE
+   ADD STUDENT
 ===================================================== */
 
 function showAddStudentPage() {
-
   const app =
-    document.querySelector("#app");
+    document.querySelector("#app")
 
   if (!app) {
-    return;
+    return
   }
 
 
-  app.innerHTML = `
+  app.innerHTML = renderStudentForm()
 
-    <div class="dashboard">
+
+  setupStudentForm("add")
+
+  setupStudentMobileMenu()
+}
+
+
+/* =====================================================
+   EDIT STUDENT
+===================================================== */
+
+function showEditStudentPage(id) {
+  const student =
+    students.find(
+      item => item.id === id
+    )
+
+
+  if (!student) {
+    alert("Student not found.")
+    return
+  }
+
+
+  const app =
+    document.querySelector("#app")
+
+  if (!app) {
+    return
+  }
+
+
+  app.innerHTML =
+    renderStudentForm(
+      "edit",
+      student
+    )
+
+
+  setupStudentForm(
+    "edit",
+    student
+  )
+
+  setupStudentMobileMenu()
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+function renderStudentForm(
+  mode = "add",
+  student = null
+) {
+  const isEdit = mode === "edit"
+
+  return `
+    <div class="teacher-students-page">
 
       ${teacherSidebar("students")}
 
+      <main class="teacher-dashboard-main">
 
-      <main class="dashboard-main">
+        <header class="teacher-dashboard-header">
 
-        <header class="dashboard-header">
+          <button
+            type="button"
+            class="teacher-mobile-menu"
+            id="teacherStudentsMobileMenu"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
 
-          <div>
-            <h1>➕ Add Student</h1>
-            <p>Add a new student</p>
+          <div class="teacher-students-header-title">
+
+            <h1>
+              ${isEdit ? "✏️ Edit Student" : "➕ Add Student"}
+            </h1>
+
+            <p>
+              ${isEdit
+                ? "Update student information"
+                : "Add a new student"}
+            </p>
+
           </div>
 
         </header>
 
 
-        <section class="dashboard-content">
+        <section class="teacher-students-content">
 
-          <div
-            class="dashboard-card"
-            style="
-              max-width:800px;
-              margin:auto;
-            "
-          >
+          <div class="teacher-student-form-card">
 
-            <div class="card-header">
+            <h2 class="teacher-student-form-title">
+              ${isEdit
+                ? "Edit Student"
+                : "Add New Student"}
+            </h2>
 
-              <div>
-                <h2>Add New Student</h2>
-                <p>
-                  Enter student information below
-                </p>
-              </div>
-
-            </div>
+            <p class="teacher-student-form-subtitle">
+              Enter student information below
+            </p>
 
 
-            <form id="addStudentForm">
+            <form id="teacherStudentForm">
 
-              <div
-                style="
-                  display:grid;
-                  grid-template-columns:
-                    repeat(auto-fit,minmax(220px,1fr));
-                  gap:20px;
-                "
-              >
+              <div class="teacher-student-form-grid">
 
-                <div>
-                  <label>Student Name</label>
+                ${formField(
+                  "Student Name",
+                  "studentName",
+                  "text",
+                  student?.name || "",
+                  "Enter student name"
+                )}
 
-                  <input
-                    type="text"
-                    id="addStudentName"
-                    placeholder="Enter student name"
+                ${formField(
+                  "Roll Number",
+                  "studentRoll",
+                  "text",
+                  student?.rollNo || "",
+                  "Example: 104"
+                )}
+
+                ${formField(
+                  "Class",
+                  "studentClass",
+                  "text",
+                  student?.className || "",
+                  "Example: Class 10"
+                )}
+
+                ${formField(
+                  "Section",
+                  "studentSection",
+                  "text",
+                  student?.section || "",
+                  "Example: B"
+                )}
+
+                <div class="teacher-student-form-group">
+
+                  <label
+                    class="teacher-student-form-label"
+                    for="studentGender"
+                  >
+                    Gender
+                  </label>
+
+                  <select
+                    id="studentGender"
+                    class="teacher-student-form-select"
                     required
-                  />
-                </div>
-
-
-                <div>
-                  <label>Roll Number</label>
-
-                  <input
-                    type="text"
-                    id="addStudentRoll"
-                    placeholder="Example: 104"
-                    required
-                  />
-                </div>
-
-
-                <div>
-                  <label>Class</label>
-
-                  <input
-                    type="text"
-                    id="addStudentClass"
-                    placeholder="Example: Class 10"
-                    required
-                  />
-                </div>
-
-
-                <div>
-                  <label>Section</label>
-
-                  <input
-                    type="text"
-                    id="addStudentSection"
-                    placeholder="Example: B"
-                    maxlength="2"
-                    required
-                  />
-                </div>
-
-
-                <div>
-                  <label>Gender</label>
-
-                  <select id="addStudentGender" required>
+                  >
 
                     <option value="">
                       Select Gender
                     </option>
 
-                    <option value="Male">
-                      Male
-                    </option>
-
-                    <option value="Female">
-                      Female
-                    </option>
-
-                  </select>
-                </div>
-
-
-                <div>
-                  <label>Mobile Number</label>
-
-                  <input
-                    type="tel"
-                    id="addStudentMobile"
-                    placeholder="10 digit mobile"
-                    maxlength="10"
-                  />
-                </div>
-
-
-                <div>
-                  <label>Parent Name</label>
-
-                  <input
-                    type="text"
-                    id="addStudentParent"
-                    placeholder="Parent / Guardian name"
-                  />
-                </div>
-
-              </div>
-
-
-              <div
-                style="
-                  display:flex;
-                  gap:12px;
-                  margin-top:30px;
-                  flex-wrap:wrap;
-                "
-              >
-
-                <button
-                  type="submit"
-                  class="login-btn"
-                  style="max-width:180px;"
-                >
-                  💾 Save Student
-                </button>
-
-
-                <button
-                  type="button"
-                  class="view-btn"
-                  id="cancelAddStudent"
-                >
-                  Cancel
-                </button>
-
-              </div>
-
-            </form>
-
-          </div>
-
-        </section>
-
-      </main>
-
-    </div>
-  `;
-
-
-  const form =
-    document.querySelector("#addStudentForm");
-
-
-  form.addEventListener("submit", function(event) {
-
-    event.preventDefault();
-
-
-    const name =
-      document
-        .querySelector("#addStudentName")
-        .value
-        .trim();
-
-
-    const rollNo =
-      document
-        .querySelector("#addStudentRoll")
-        .value
-        .trim();
-
-
-    const className =
-      document
-        .querySelector("#addStudentClass")
-        .value
-        .trim();
-
-
-    const section =
-      document
-        .querySelector("#addStudentSection")
-        .value
-        .trim()
-        .toUpperCase();
-
-
-    const gender =
-      document
-        .querySelector("#addStudentGender")
-        .value;
-
-
-    const mobile =
-      document
-        .querySelector("#addStudentMobile")
-        .value
-        .trim();
-
-
-    const parentName =
-      document
-        .querySelector("#addStudentParent")
-        .value
-        .trim();
-
-
-    if (
-      !name ||
-      !rollNo ||
-      !className ||
-      !section ||
-      !gender
-    ) {
-
-      alert(
-        "Please fill all required fields."
-      );
-
-      return;
-
-    }
-
-
-    if (
-      mobile &&
-      !/^[6-9]\d{9}$/.test(mobile)
-    ) {
-
-      alert(
-        "Please enter a valid Indian mobile number."
-      );
-
-      return;
-
-    }
-
-
-    students.push({
-
-      id: Date.now(),
-
-      name,
-
-      rollNo,
-
-      className,
-
-      section,
-
-      gender,
-
-      mobile,
-
-      parentName:
-
-        parentName ||
-        "Not Added",
-
-      attendance:
-        "0%",
-
-      result:
-        "0%"
-
-    });
-
-
-    renderMainStudentsPage();
-
-  });
-
-
-  document
-    .querySelector("#cancelAddStudent")
-    .addEventListener(
-      "click",
-      renderMainStudentsPage
-    );
-
-}
-
-
-/* =====================================================
-   EDIT STUDENT PAGE
-===================================================== */
-
-function showEditStudentPage(id) {
-
-  const student =
-    students.find(
-      item => item.id === id
-    );
-
-
-  if (!student) {
-
-    alert("Student not found.");
-    return;
-
-  }
-
-
-  const app =
-    document.querySelector("#app");
-
-
-  if (!app) {
-    return;
-  }
-
-
-  app.innerHTML = `
-
-    <div class="dashboard">
-
-      ${teacherSidebar("students")}
-
-
-      <main class="dashboard-main">
-
-        <header class="dashboard-header">
-
-          <div>
-            <h1>✏️ Edit Student</h1>
-            <p>Update student information</p>
-          </div>
-
-        </header>
-
-
-        <section class="dashboard-content">
-
-          <div
-            class="dashboard-card"
-            style="
-              max-width:800px;
-              margin:auto;
-            "
-          >
-
-            <div class="card-header">
-
-              <div>
-                <h2>Edit Student</h2>
-                <p>
-                  Update the details below
-                </p>
-              </div>
-
-            </div>
-
-
-            <form id="editStudentForm">
-
-              <div
-                style="
-                  display:grid;
-                  grid-template-columns:
-                    repeat(auto-fit,minmax(220px,1fr));
-                  gap:20px;
-                "
-              >
-
-                <div>
-                  <label>Student Name</label>
-
-                  <input
-                    type="text"
-                    id="editStudentName"
-                    value="${escapeAttribute(student.name)}"
-                    required
-                  />
-                </div>
-
-
-                <div>
-                  <label>Roll Number</label>
-
-                  <input
-                    type="text"
-                    id="editStudentRoll"
-                    value="${escapeAttribute(student.rollNo)}"
-                    required
-                  />
-                </div>
-
-
-                <div>
-                  <label>Class</label>
-
-                  <input
-                    type="text"
-                    id="editStudentClass"
-                    value="${escapeAttribute(student.className)}"
-                    required
-                  />
-                </div>
-
-
-                <div>
-                  <label>Section</label>
-
-                  <input
-                    type="text"
-                    id="editStudentSection"
-                    value="${escapeAttribute(student.section)}"
-                    maxlength="2"
-                    required
-                  />
-                </div>
-
-
-                <div>
-                  <label>Gender</label>
-
-                  <select
-                    id="editStudentGender"
-                    required
-                  >
-
                     <option
                       value="Male"
-                      ${student.gender === "Male" ? "selected" : ""}
+                      ${student?.gender === "Male" ? "selected" : ""}
                     >
                       Male
                     </option>
 
                     <option
                       value="Female"
-                      ${student.gender === "Female" ? "selected" : ""}
+                      ${student?.gender === "Female" ? "selected" : ""}
                     >
                       Female
                     </option>
 
                   </select>
+
                 </div>
 
 
-                <div>
-                  <label>Mobile Number</label>
+                ${formField(
+                  "Mobile Number",
+                  "studentMobile",
+                  "tel",
+                  student?.mobile || "",
+                  "10 digit mobile"
+                )}
 
-                  <input
-                    type="tel"
-                    id="editStudentMobile"
-                    value="${escapeAttribute(student.mobile)}"
-                    maxlength="10"
-                  />
-                </div>
-
-
-                <div>
-                  <label>Parent Name</label>
-
-                  <input
-                    type="text"
-                    id="editStudentParent"
-                    value="${escapeAttribute(student.parentName)}"
-                  />
-                </div>
+                ${formField(
+                  "Parent Name",
+                  "studentParent",
+                  "text",
+                  student?.parentName || "",
+                  "Parent / Guardian name"
+                )}
 
               </div>
 
 
-              <div
-                style="
-                  display:flex;
-                  gap:12px;
-                  margin-top:30px;
-                  flex-wrap:wrap;
-                "
-              >
-
-                <button
-                  type="submit"
-                  class="login-btn"
-                  style="max-width:180px;"
-                >
-                  💾 Update Student
-                </button>
-
+              <div class="teacher-student-form-actions">
 
                 <button
                   type="button"
-                  class="view-btn"
-                  id="cancelEditStudent"
+                  class="teacher-student-cancel-btn"
+                  id="cancelTeacherStudentForm"
                 >
                   Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  class="teacher-student-save-btn"
+                >
+                  ${isEdit
+                    ? "💾 Update Student"
+                    : "💾 Save Student"}
                 </button>
 
               </div>
@@ -1407,134 +1864,191 @@ function showEditStudentPage(id) {
       </main>
 
     </div>
-  `;
+  `
+}
 
 
-  document
-    .querySelector("#editStudentForm")
-    .addEventListener(
-      "submit",
-      function(event) {
+function formField(
+  label,
+  id,
+  type,
+  value,
+  placeholder
+) {
+  return `
+    <div class="teacher-student-form-group">
 
-        event.preventDefault();
+      <label
+        class="teacher-student-form-label"
+        for="${id}"
+      >
+        ${label}
+      </label>
 
+      <input
+        type="${type}"
+        id="${id}"
+        class="teacher-student-form-input"
+        value="${escapeAttribute(value)}"
+        placeholder="${escapeAttribute(placeholder)}"
+        ${type === "tel" ? 'maxlength="10"' : ""}
+        required
+      />
 
-        const name =
-          document
-            .querySelector("#editStudentName")
-            .value
-            .trim();
-
-
-        const rollNo =
-          document
-            .querySelector("#editStudentRoll")
-            .value
-            .trim();
-
-
-        const className =
-          document
-            .querySelector("#editStudentClass")
-            .value
-            .trim();
-
-
-        const section =
-          document
-            .querySelector("#editStudentSection")
-            .value
-            .trim()
-            .toUpperCase();
+    </div>
+  `
+}
 
 
-        const gender =
-          document
-            .querySelector("#editStudentGender")
-            .value;
+/* =====================================================
+   FORM SETUP
+===================================================== */
+
+function setupStudentForm(
+  mode,
+  student = null
+) {
+  const form =
+    document.querySelector(
+      "#teacherStudentForm"
+    )
+
+  if (!form) {
+    return
+  }
 
 
-        const mobile =
-          document
-            .querySelector("#editStudentMobile")
-            .value
-            .trim();
+  form.addEventListener(
+    "submit",
+    event => {
+      event.preventDefault()
+
+      const name =
+        document
+          .querySelector("#studentName")
+          .value
+          .trim()
+
+      const rollNo =
+        document
+          .querySelector("#studentRoll")
+          .value
+          .trim()
+
+      const className =
+        document
+          .querySelector("#studentClass")
+          .value
+          .trim()
+
+      const section =
+        document
+          .querySelector("#studentSection")
+          .value
+          .trim()
+          .toUpperCase()
+
+      const gender =
+        document
+          .querySelector("#studentGender")
+          .value
+
+      const mobile =
+        document
+          .querySelector("#studentMobile")
+          .value
+          .trim()
+
+      const parentName =
+        document
+          .querySelector("#studentParent")
+          .value
+          .trim()
 
 
-        const parentName =
-          document
-            .querySelector("#editStudentParent")
-            .value
-            .trim();
+      if (
+        !name ||
+        !rollNo ||
+        !className ||
+        !section ||
+        !gender
+      ) {
+        alert(
+          "Please fill all required fields."
+        )
+        return
+      }
 
 
-        if (
-          !name ||
-          !rollNo ||
-          !className ||
-          !section ||
-          !gender
-        ) {
-
-          alert(
-            "Please fill all required fields."
-          );
-
-          return;
-
-        }
+      if (
+        mobile &&
+        !/^[6-9]\\d{9}$/.test(mobile)
+      ) {
+        alert(
+          "Please enter a valid Indian mobile number."
+        )
+        return
+      }
 
 
-        if (
-          mobile &&
-          !/^[6-9]\d{9}$/.test(mobile)
-        ) {
-
-          alert(
-            "Please enter a valid Indian mobile number."
-          );
-
-          return;
-
-        }
-
+      if (mode === "edit" && student) {
 
         student.name =
-          name;
+          name
 
         student.rollNo =
-          rollNo;
+          rollNo
 
         student.className =
-          className;
+          className
 
         student.section =
-          section;
+          section
 
         student.gender =
-          gender;
+          gender
 
         student.mobile =
-          mobile;
+          mobile
 
         student.parentName =
-          parentName ||
-          "Not Added";
+          parentName || "Not Added"
 
+      } else {
 
-        renderMainStudentsPage();
-
+        students.push({
+          id: Date.now(),
+          name,
+          rollNo,
+          className,
+          section,
+          gender,
+          mobile,
+          parentName:
+            parentName || "Not Added",
+          attendance: "0%",
+          result: "0%"
+        })
       }
-    );
 
 
-  document
-    .querySelector("#cancelEditStudent")
-    .addEventListener(
+      renderMainStudentsPage()
+    }
+  )
+
+
+  const cancel =
+    document.querySelector(
+      "#cancelTeacherStudentForm"
+    )
+
+
+  if (cancel) {
+    cancel.addEventListener(
       "click",
       renderMainStudentsPage
-    );
-
+    )
+  }
 }
 
 
@@ -1543,87 +2057,72 @@ function showEditStudentPage(id) {
 ===================================================== */
 
 function viewStudent(id) {
-
   const student =
     students.find(
       item => item.id === id
-    );
+    )
 
 
   if (!student) {
-
-    alert("Student not found.");
-    return;
-
+    alert("Student not found.")
+    return
   }
 
 
   const app =
-    document.querySelector("#app");
-
+    document.querySelector("#app")
 
   if (!app) {
-    return;
+    return
   }
 
 
   app.innerHTML = `
-
-    <div class="dashboard">
+    <div class="teacher-students-page">
 
       ${teacherSidebar("students")}
 
+      <main class="teacher-dashboard-main">
 
-      <main class="dashboard-main">
+        <header class="teacher-dashboard-header">
 
-        <header class="dashboard-header">
+          <button
+            type="button"
+            class="teacher-mobile-menu"
+            id="teacherStudentsMobileMenu"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
 
-          <div>
-            <h1>👨‍🎓 Student Profile</h1>
-            <p>Student details</p>
+          <div class="teacher-students-header-title">
+
+            <h1>
+              👨‍🎓 Student Profile
+            </h1>
+
+            <p>
+              Student details
+            </p>
+
           </div>
 
         </header>
 
 
-        <section class="dashboard-content">
+        <section class="teacher-students-content">
 
-          <div
-            class="dashboard-card"
-            style="
-              max-width:750px;
-              margin:auto;
-            "
-          >
+          <div class="teacher-student-profile-card">
 
-            <div
-              style="
-                text-align:center;
-                padding:20px;
-              "
-            >
+            <div class="teacher-student-profile-top">
 
-              <div
-                style="
-                  width:90px;
-                  height:90px;
-                  margin:auto;
-                  border-radius:50%;
-                  display:flex;
-                  align-items:center;
-                  justify-content:center;
-                  background:#eef4ff;
-                  font-size:42px;
-                "
-              >
+              <div class="teacher-student-profile-avatar">
                 👨‍🎓
               </div>
-
 
               <h2>
                 ${escapeHTML(student.name)}
               </h2>
-
 
               <p>
                 Roll No: ${escapeHTML(student.rollNo)}
@@ -1632,15 +2131,7 @@ function viewStudent(id) {
             </div>
 
 
-            <div
-              style="
-                display:grid;
-                grid-template-columns:
-                  repeat(auto-fit,minmax(200px,1fr));
-                gap:20px;
-                margin-top:25px;
-              "
-            >
+            <div class="teacher-student-profile-grid">
 
               ${profileItem(
                 "🏫 Class",
@@ -1675,30 +2166,20 @@ function viewStudent(id) {
             </div>
 
 
-            <div
-              style="
-                display:flex;
-                gap:12px;
-                margin-top:30px;
-                flex-wrap:wrap;
-              "
-            >
+            <div class="teacher-student-profile-actions">
 
               <button
                 type="button"
-                class="login-btn"
+                class="teacher-student-back-btn"
                 id="profileBackBtn"
-                style="max-width:220px;"
               >
                 ← Back to Students
               </button>
 
-
               <button
                 type="button"
-                class="view-btn"
+                class="teacher-student-cancel-btn"
                 id="profileEditBtn"
-                data-id="${student.id}"
               >
                 ✏️ Edit Student
               </button>
@@ -1712,24 +2193,26 @@ function viewStudent(id) {
       </main>
 
     </div>
-  `;
+  `
+
+
+  setupStudentMobileMenu()
 
 
   document
     .querySelector("#profileBackBtn")
-    .addEventListener(
+    ?.addEventListener(
       "click",
       renderMainStudentsPage
-    );
+    )
 
 
   document
     .querySelector("#profileEditBtn")
-    .addEventListener(
+    ?.addEventListener(
       "click",
       () => showEditStudentPage(id)
-    );
-
+    )
 }
 
 
@@ -1737,98 +2220,82 @@ function viewStudent(id) {
    PROFILE ITEM
 ===================================================== */
 
-function profileItem(label, value) {
-
+function profileItem(
+  label,
+  value
+) {
   return `
-    <div
-      style="
-        padding:15px;
-        border-radius:12px;
-        background:#f8f9fc;
-      "
-    >
+    <div class="teacher-student-profile-item">
 
-      <small>
+      <span>
         ${escapeHTML(label)}
-      </small>
+      </span>
 
-      <strong
-        style="
-          display:block;
-          margin-top:6px;
-        "
-      >
+      <strong>
         ${escapeHTML(value)}
       </strong>
 
     </div>
-  `;
+  `
 }
 
 
 /* =====================================================
-   DELETE STUDENT
+   DELETE
 ===================================================== */
 
 function deleteStudent(id) {
-
   const student =
     students.find(
       item => item.id === id
-    );
+    )
 
 
   if (!student) {
-
-    alert("Student not found.");
-    return;
-
+    alert("Student not found.")
+    return
   }
 
 
   const confirmed =
     window.confirm(
       `Delete ${student.name}?\n\nThis action cannot be undone.`
-    );
+    )
 
 
   if (!confirmed) {
-    return;
+    return
   }
 
 
   students =
     students.filter(
       item => item.id !== id
-    );
+    )
 
 
-  renderMainStudentsPage();
-
+  renderMainStudentsPage()
 }
 
 
 /* =====================================================
-   REFRESH MAIN PAGE
+   REFRESH
 ===================================================== */
 
 function renderMainStudentsPage() {
-
   const app =
-    document.querySelector("#app");
-
+    document.querySelector("#app")
 
   if (!app) {
-    return;
+    return
   }
 
 
   app.innerHTML =
-    TeacherStudents();
+    TeacherStudents()
 
 
-  setupTeacherStudents();
-
+  setupTeacherStudents()
 }
 
 
@@ -1837,25 +2304,21 @@ function renderMainStudentsPage() {
 ===================================================== */
 
 function goToDashboard() {
-
   if (
     typeof window.navigateTeacherPage ===
     "function"
   ) {
-
     window.navigateTeacherPage(
       "dashboard"
-    );
+    )
 
-    return;
-
+    return
   }
 
 
   alert(
     "Teacher Dashboard navigation available nahi hai."
-  );
-
+  )
 }
 
 
@@ -1864,66 +2327,66 @@ function goToDashboard() {
 ===================================================== */
 
 function getTotalClasses() {
-
   return new Set(
     students.map(
       student =>
         `${student.className}-${student.section}`
     )
-  ).size;
-
+  ).size
 }
 
 
 function getAverageAttendance() {
-
   if (!students.length) {
-    return 0;
+    return 0
   }
 
 
   const total =
     students.reduce(
-      (sum, student) =>
-        sum +
-        parseInt(
-          student.attendance,
-          10
-        ) || 0,
+      (sum, student) => {
+        return (
+          sum +
+          (parseInt(
+            student.attendance,
+            10
+          ) || 0)
+        )
+      },
       0
-    );
+    )
 
 
   return Math.round(
     total / students.length
-  );
-
+  )
 }
 
 
 function getAverageResult() {
-
   if (!students.length) {
-    return 0;
+    return 0
   }
 
 
   const total =
     students.reduce(
-      (sum, student) =>
-        sum +
-        parseInt(
-          student.result,
-          10
-        ) || 0,
+      (sum, student) => {
+        return (
+          sum +
+          (parseInt(
+            student.result,
+            10
+          ) || 0)
+        )
+      },
       0
-    );
+    )
 
 
   return Math.round(
     total / students.length
-  );
-
+  )
 }
 
 
@@ -1932,34 +2395,15 @@ function getAverageResult() {
 ===================================================== */
 
 function escapeHTML(value) {
-
   return String(value)
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;")
 }
 
 
 function escapeAttribute(value) {
-
-  return escapeHTML(value);
-
+  return escapeHTML(value)
 }

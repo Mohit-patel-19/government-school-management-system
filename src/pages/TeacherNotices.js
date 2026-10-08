@@ -12,6 +12,1359 @@ let editingNoticeId = null;
 
 
 /* =========================================================
+   RESPONSIVE CSS
+========================================================= */
+
+function loadTeacherNoticesCSS() {
+  if (document.getElementById("teacher-notices-css")) {
+    return;
+  }
+
+  const style = document.createElement("style");
+
+  style.id = "teacher-notices-css";
+
+  style.textContent = `
+
+    /* ================================
+       PAGE
+    ================================= */
+
+    .teacher-notices-page {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 24px !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+    }
+
+    .teacher-notices-page,
+    .teacher-notices-page *,
+    .teacher-notices-page *::before,
+    .teacher-notices-page *::after {
+      box-sizing: border-box !important;
+    }
+
+    .teacher-notices-page img,
+    .teacher-notices-page input,
+    .teacher-notices-page select,
+    .teacher-notices-page textarea,
+    .teacher-notices-page button {
+      max-width: 100%;
+    }
+
+
+    /* ================================
+       HEADER
+    ================================= */
+
+    .tn-header {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+
+      display: flex !important;
+      align-items: flex-start !important;
+      justify-content: space-between !important;
+
+      gap: 16px !important;
+      margin: 0 0 22px 0 !important;
+    }
+
+    .tn-header > div:first-child {
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+    }
+
+    .tn-header h1 {
+      margin: 0 !important;
+      padding: 0 !important;
+
+      font-size: clamp(22px, 3vw, 30px) !important;
+      line-height: 1.25 !important;
+
+      color: #111827 !important;
+
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    .tn-header p {
+      margin: 6px 0 0 0 !important;
+
+      font-size: 14px !important;
+      line-height: 20px !important;
+
+      color: #6b7280 !important;
+
+      word-break: break-word !important;
+    }
+
+    .tn-header-actions {
+      flex: 0 1 auto !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+    }
+
+
+    /* ================================
+       BUTTONS
+    ================================= */
+
+    .teacher-notices-page .tn-back-btn,
+    .teacher-notices-page .tn-primary-btn,
+    .teacher-notices-page .tn-secondary-btn,
+    .teacher-notices-page .tn-danger-btn {
+      max-width: 100% !important;
+
+      font-family: inherit !important;
+
+      cursor: pointer !important;
+
+      white-space: nowrap !important;
+
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+
+      flex-shrink: 1 !important;
+    }
+
+    .tn-back-btn {
+      min-height: 40px !important;
+
+      padding: 9px 13px !important;
+
+      border: 1px solid #d1d5db !important;
+      border-radius: 8px !important;
+
+      background: #ffffff !important;
+      color: #374151 !important;
+
+      font-size: 13px !important;
+    }
+
+    .tn-primary-btn {
+      min-height: 40px !important;
+
+      padding: 9px 14px !important;
+
+      border: 0 !important;
+      border-radius: 8px !important;
+
+      background: #2563eb !important;
+      color: #ffffff !important;
+
+      font-size: 13px !important;
+      font-weight: 600 !important;
+    }
+
+    .tn-secondary-btn {
+      min-height: 38px !important;
+
+      padding: 8px 12px !important;
+
+      border: 1px solid #dbeafe !important;
+      border-radius: 8px !important;
+
+      background: #eff6ff !important;
+      color: #2563eb !important;
+
+      font-size: 13px !important;
+      font-weight: 600 !important;
+    }
+
+    .tn-danger-btn {
+      min-height: 38px !important;
+
+      padding: 8px 12px !important;
+
+      border: 1px solid #fecaca !important;
+      border-radius: 8px !important;
+
+      background: #fef2f2 !important;
+      color: #dc2626 !important;
+
+      font-size: 13px !important;
+      font-weight: 600 !important;
+    }
+
+
+    /* ================================
+       STATS
+    ================================= */
+
+    .tn-stats {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+
+      display: grid !important;
+
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr)) !important;
+
+      gap: 12px !important;
+
+      margin-bottom: 18px !important;
+    }
+
+    .tn-stat-card {
+      min-width: 0 !important;
+      max-width: 100% !important;
+
+      display: flex !important;
+      align-items: center !important;
+
+      gap: 10px !important;
+
+      padding: 15px !important;
+
+      background: #ffffff !important;
+
+      border: 1px solid #e5e7eb !important;
+      border-radius: 12px !important;
+
+      box-shadow: 0 2px 7px rgba(0,0,0,0.03) !important;
+    }
+
+    .tn-stat-icon {
+      width: 42px !important;
+      height: 42px !important;
+
+      min-width: 42px !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      border-radius: 10px !important;
+
+      background: #eff6ff !important;
+
+      font-size: 20px !important;
+    }
+
+    .tn-stat-card > div:last-child {
+      min-width: 0 !important;
+    }
+
+    .tn-stat-card span {
+      display: block !important;
+
+      font-size: 11px !important;
+      line-height: 17px !important;
+
+      color: #6b7280 !important;
+
+      white-space: nowrap !important;
+    }
+
+    .tn-stat-card strong {
+      display: block !important;
+
+      margin-top: 1px !important;
+
+      font-size: 22px !important;
+      line-height: 27px !important;
+
+      color: #111827 !important;
+    }
+
+
+    /* ================================
+       TOOLBAR
+    ================================= */
+
+    .tn-toolbar {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+
+      display: grid !important;
+
+      grid-template-columns:
+        minmax(0, 1.5fr)
+        repeat(3, minmax(0, 0.7fr)) !important;
+
+      gap: 9px !important;
+
+      padding: 12px !important;
+      margin-bottom: 18px !important;
+
+      background: #ffffff !important;
+
+      border: 1px solid #e5e7eb !important;
+      border-radius: 11px !important;
+    }
+
+    .tn-search {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+
+      height: 42px !important;
+
+      display: flex !important;
+      align-items: center !important;
+
+      gap: 7px !important;
+
+      padding: 0 10px !important;
+
+      border: 1px solid #d1d5db !important;
+      border-radius: 8px !important;
+
+      background: #ffffff !important;
+    }
+
+    .tn-search span {
+      flex: 0 0 auto !important;
+      font-size: 15px !important;
+    }
+
+    .tn-search input {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+
+      border: 0 !important;
+      outline: 0 !important;
+
+      font-family: inherit !important;
+      font-size: 13px !important;
+
+      background: transparent !important;
+    }
+
+    .tn-toolbar select {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+
+      height: 42px !important;
+
+      padding: 0 9px !important;
+
+      border: 1px solid #d1d5db !important;
+      border-radius: 8px !important;
+
+      background: #ffffff !important;
+
+      color: #374151 !important;
+
+      font-family: inherit !important;
+      font-size: 12px !important;
+
+      outline: 0 !important;
+    }
+
+
+    /* ================================
+       CONTENT
+    ================================= */
+
+    #tnContent {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
+    }
+
+    .tn-list {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+
+      display: flex !important;
+      flex-direction: column !important;
+
+      gap: 12px !important;
+    }
+
+    .tn-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+
+      display: grid !important;
+
+      grid-template-columns:
+        48px minmax(0, 1fr) auto !important;
+
+      gap: 12px !important;
+
+      padding: 14px !important;
+
+      background: #ffffff !important;
+
+      border: 1px solid #e5e7eb !important;
+      border-radius: 12px !important;
+    }
+
+    .tn-card-left {
+      min-width: 0 !important;
+    }
+
+    .tn-notice-icon {
+      width: 44px !important;
+      height: 44px !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      border-radius: 10px !important;
+
+      background: #eff6ff !important;
+
+      font-size: 20px !important;
+    }
+
+    .tn-card-content {
+      min-width: 0 !important;
+      max-width: 100% !important;
+    }
+
+    .tn-card-title-row {
+      width: 100% !important;
+      min-width: 0 !important;
+
+      display: flex !important;
+      align-items: flex-start !important;
+
+      justify-content: space-between !important;
+
+      gap: 10px !important;
+    }
+
+    .tn-card-title-row > div:first-child {
+      min-width: 0 !important;
+      flex: 1 1 auto !important;
+    }
+
+    .tn-badges {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 5px !important;
+
+      margin-bottom: 5px !important;
+    }
+
+    .tn-category-badge,
+    .tn-important-badge {
+      max-width: 100% !important;
+
+      padding: 3px 7px !important;
+
+      border-radius: 15px !important;
+
+      font-size: 10px !important;
+      line-height: 14px !important;
+
+      white-space: nowrap !important;
+    }
+
+    .tn-card h3 {
+      margin: 0 !important;
+
+      font-size: 16px !important;
+      line-height: 21px !important;
+
+      color: #111827 !important;
+
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    .tn-description {
+      margin: 8px 0 9px !important;
+
+      font-size: 12px !important;
+      line-height: 18px !important;
+
+      color: #6b7280 !important;
+
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    .tn-meta {
+      display: flex !important;
+      flex-wrap: wrap !important;
+
+      gap: 7px 12px !important;
+
+      font-size: 11px !important;
+      line-height: 16px !important;
+
+      color: #6b7280 !important;
+    }
+
+    .tn-card-actions {
+      display: flex !important;
+
+      align-items: center !important;
+
+      gap: 4px !important;
+
+      flex-shrink: 0 !important;
+    }
+
+    .tn-icon-btn {
+      width: 32px !important;
+      height: 32px !important;
+
+      min-width: 32px !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      padding: 0 !important;
+
+      border: 1px solid #e5e7eb !important;
+      border-radius: 7px !important;
+
+      background: #ffffff !important;
+
+      font-size: 14px !important;
+
+      cursor: pointer !important;
+    }
+
+    .tn-card-footer {
+      min-width: 100px !important;
+
+      display: flex !important;
+      flex-direction: column !important;
+
+      align-items: flex-end !important;
+      justify-content: space-between !important;
+
+      gap: 8px !important;
+
+      color: #9ca3af !important;
+
+      font-size: 10px !important;
+      line-height: 15px !important;
+
+      text-align: right !important;
+    }
+
+    .tn-view-btn {
+      border: 0 !important;
+      background: transparent !important;
+
+      color: #2563eb !important;
+
+      font-size: 11px !important;
+      font-weight: 600 !important;
+
+      padding: 3px 0 !important;
+
+      white-space: nowrap !important;
+
+      cursor: pointer !important;
+    }
+
+
+    /* ================================
+       EMPTY
+    ================================= */
+
+    .tn-empty {
+      width: 100% !important;
+      max-width: 100% !important;
+
+      padding: 50px 15px !important;
+
+      text-align: center !important;
+
+      background: #ffffff !important;
+
+      border: 1px solid #e5e7eb !important;
+      border-radius: 12px !important;
+    }
+
+    .tn-empty-icon {
+      margin-bottom: 10px !important;
+
+      font-size: 46px !important;
+    }
+
+    .tn-empty h3 {
+      margin: 0 !important;
+
+      font-size: 18px !important;
+      line-height: 24px !important;
+
+      color: #111827 !important;
+    }
+
+    .tn-empty p {
+      margin: 6px 0 18px !important;
+
+      font-size: 12px !important;
+      line-height: 18px !important;
+
+      color: #6b7280 !important;
+    }
+
+
+    /* ================================
+       FORM
+    ================================= */
+
+    .tn-form-page,
+    .tn-detail-page {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    .tn-form-header {
+      width: 100% !important;
+      min-width: 0 !important;
+
+      display: flex !important;
+      align-items: flex-start !important;
+      justify-content: space-between !important;
+
+      gap: 14px !important;
+
+      margin-bottom: 18px !important;
+    }
+
+    .tn-form-header > div:first-child {
+      min-width: 0 !important;
+    }
+
+    .tn-form-header h1 {
+      margin: 0 !important;
+
+      font-size: clamp(21px, 3vw, 28px) !important;
+      line-height: 1.25 !important;
+
+      color: #111827 !important;
+
+      word-break: break-word !important;
+    }
+
+    .tn-form-header p {
+      margin: 5px 0 0 !important;
+
+      font-size: 13px !important;
+
+      color: #6b7280 !important;
+    }
+
+    #teacherNoticeForm {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+
+      padding: 20px !important;
+
+      background: #ffffff !important;
+
+      border: 1px solid #e5e7eb !important;
+      border-radius: 12px !important;
+    }
+
+    .tn-form-grid {
+      width: 100% !important;
+      max-width: 100% !important;
+
+      display: grid !important;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+      gap: 16px !important;
+    }
+
+    .tn-form-group {
+      min-width: 0 !important;
+      max-width: 100% !important;
+    }
+
+    .tn-form-group.full {
+      grid-column: 1 / -1 !important;
+    }
+
+    .tn-form-group label {
+      display: block !important;
+
+      margin-bottom: 6px !important;
+
+      font-size: 12px !important;
+      font-weight: 600 !important;
+
+      color: #374151 !important;
+    }
+
+    .tn-form-group input,
+    .tn-form-group select,
+    .tn-form-group textarea {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+
+      font-family: inherit !important;
+      font-size: 13px !important;
+
+      border: 1px solid #d1d5db !important;
+      border-radius: 8px !important;
+
+      outline: 0 !important;
+    }
+
+    .tn-form-group input[type="text"],
+    .tn-form-group input[type="date"],
+    .tn-form-group input[type="url"],
+    .tn-form-group select {
+      height: 42px !important;
+
+      padding: 0 10px !important;
+    }
+
+    .tn-form-group textarea {
+      min-height: 120px !important;
+
+      padding: 10px !important;
+
+      resize: vertical !important;
+
+      line-height: 19px !important;
+    }
+
+    .tn-form-group small {
+      display: block !important;
+
+      margin-top: 5px !important;
+
+      font-size: 10px !important;
+      line-height: 15px !important;
+
+      color: #9ca3af !important;
+    }
+
+    .tn-checkbox-label {
+      width: 100% !important;
+      max-width: 100% !important;
+
+      min-height: 42px !important;
+
+      display: flex !important;
+      align-items: center !important;
+
+      gap: 8px !important;
+
+      padding: 9px 10px !important;
+
+      border: 1px solid #d1d5db !important;
+      border-radius: 8px !important;
+
+      font-size: 12px !important;
+    }
+
+    .tn-checkbox-label input {
+      width: 16px !important;
+      height: 16px !important;
+
+      min-width: 16px !important;
+
+      flex-shrink: 0 !important;
+    }
+
+    .tn-form-actions {
+      width: 100% !important;
+      max-width: 100% !important;
+
+      display: flex !important;
+
+      align-items: center !important;
+      justify-content: flex-end !important;
+
+      gap: 9px !important;
+
+      margin-top: 20px !important;
+      padding-top: 17px !important;
+
+      border-top: 1px solid #eeeeee !important;
+    }
+
+
+    /* ================================
+       DETAIL
+    ================================= */
+
+    .tn-detail-header {
+      width: 100% !important;
+      min-width: 0 !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+
+      gap: 10px !important;
+
+      margin-bottom: 18px !important;
+    }
+
+    .tn-detail-actions {
+      display: flex !important;
+      align-items: center !important;
+
+      gap: 7px !important;
+
+      flex-wrap: wrap !important;
+    }
+
+    .tn-detail-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+
+      padding: 30px 20px !important;
+
+      background: #ffffff !important;
+
+      border: 1px solid #e5e7eb !important;
+      border-radius: 12px !important;
+
+      text-align: center !important;
+
+      overflow: hidden !important;
+    }
+
+    .tn-detail-icon {
+      margin-bottom: 10px !important;
+
+      font-size: 50px !important;
+    }
+
+    .tn-detail-badges {
+      display: flex !important;
+
+      justify-content: center !important;
+      align-items: center !important;
+
+      flex-wrap: wrap !important;
+
+      gap: 6px !important;
+
+      margin-bottom: 10px !important;
+    }
+
+    .tn-detail-card h1 {
+      max-width: 100% !important;
+
+      margin: 0 auto !important;
+
+      font-size: clamp(20px, 3vw, 28px) !important;
+      line-height: 1.3 !important;
+
+      color: #111827 !important;
+
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    .tn-detail-meta {
+      max-width: 100% !important;
+
+      margin: 15px auto 0 !important;
+
+      display: flex !important;
+      justify-content: center !important;
+
+      flex-wrap: wrap !important;
+
+      gap: 8px 18px !important;
+
+      font-size: 11px !important;
+      line-height: 17px !important;
+
+      color: #6b7280 !important;
+    }
+
+    .tn-detail-description {
+      width: 100% !important;
+      max-width: 100% !important;
+
+      margin: 20px auto 0 !important;
+
+      padding: 16px !important;
+
+      border-radius: 9px !important;
+
+      background: #f8fafc !important;
+
+      color: #374151 !important;
+
+      font-size: 13px !important;
+      line-height: 21px !important;
+
+      text-align: left !important;
+
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    .tn-detail-link {
+      width: 100% !important;
+      max-width: 100% !important;
+
+      margin: 15px auto 0 !important;
+
+      padding: 13px !important;
+
+      display: flex !important;
+      flex-direction: column !important;
+
+      align-items: flex-start !important;
+
+      gap: 5px !important;
+
+      text-align: left !important;
+
+      border: 1px solid #dbeafe !important;
+      border-radius: 8px !important;
+
+      background: #eff6ff !important;
+    }
+
+    .tn-detail-link a {
+      max-width: 100% !important;
+
+      word-break: break-all !important;
+
+      font-size: 12px !important;
+    }
+
+
+    /* ================================
+       TABLET
+    ================================= */
+
+    @media (max-width: 1050px) {
+
+      .teacher-notices-page {
+        padding: 20px !important;
+      }
+
+      .tn-stats {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr)) !important;
+      }
+
+      .tn-toolbar {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr)) !important;
+      }
+
+      .tn-search {
+        grid-column: 1 / -1 !important;
+      }
+
+      .tn-card {
+        grid-template-columns:
+          48px minmax(0, 1fr) !important;
+      }
+
+      .tn-card-footer {
+        grid-column: 2 !important;
+
+        min-width: 0 !important;
+
+        flex-direction: row !important;
+
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        padding-top: 9px !important;
+
+        border-top: 1px solid #eeeeee !important;
+
+        text-align: left !important;
+      }
+
+    }
+
+
+    /* ================================
+       MOBILE
+    ================================= */
+
+    @media (max-width: 700px) {
+
+      .teacher-notices-page {
+        width: 100% !important;
+        max-width: 100vw !important;
+
+        padding: 14px !important;
+
+        margin: 0 !important;
+
+        overflow-x: hidden !important;
+      }
+
+      .tn-header {
+        display: block !important;
+
+        width: 100% !important;
+
+        margin-bottom: 16px !important;
+      }
+
+      .tn-header-actions {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        display: grid !important;
+
+        grid-template-columns:
+          minmax(0, 1fr)
+          minmax(0, 1fr) !important;
+
+        gap: 8px !important;
+
+        margin-top: 12px !important;
+      }
+
+      .tn-header-actions button {
+        width: 100% !important;
+        min-width: 0 !important;
+
+        padding-left: 7px !important;
+        padding-right: 7px !important;
+      }
+
+      .tn-header h1 {
+        font-size: 23px !important;
+        line-height: 29px !important;
+      }
+
+      .tn-header p {
+        font-size: 12px !important;
+        line-height: 18px !important;
+      }
+
+
+      .tn-stats {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr)) !important;
+
+        gap: 8px !important;
+
+        margin-bottom: 12px !important;
+      }
+
+      .tn-stat-card {
+        padding: 11px !important;
+
+        gap: 8px !important;
+
+        border-radius: 9px !important;
+      }
+
+      .tn-stat-icon {
+        width: 34px !important;
+        height: 34px !important;
+
+        min-width: 34px !important;
+
+        font-size: 16px !important;
+      }
+
+      .tn-stat-card span {
+        font-size: 9px !important;
+        line-height: 14px !important;
+      }
+
+      .tn-stat-card strong {
+        font-size: 19px !important;
+        line-height: 23px !important;
+      }
+
+
+      .tn-toolbar {
+        grid-template-columns:
+          minmax(0, 1fr) !important;
+
+        gap: 8px !important;
+
+        padding: 9px !important;
+
+        margin-bottom: 12px !important;
+      }
+
+      .tn-search {
+        grid-column: auto !important;
+
+        height: 40px !important;
+      }
+
+      .tn-toolbar select {
+        height: 40px !important;
+
+        font-size: 12px !important;
+      }
+
+
+      .tn-card {
+        width: 100% !important;
+
+        grid-template-columns:
+          40px minmax(0, 1fr) !important;
+
+        gap: 9px !important;
+
+        padding: 11px !important;
+      }
+
+      .tn-notice-icon {
+        width: 38px !important;
+        height: 38px !important;
+
+        font-size: 17px !important;
+      }
+
+      .tn-card-title-row {
+        display: block !important;
+      }
+
+      .tn-card-actions {
+        width: 100% !important;
+
+        display: flex !important;
+
+        justify-content: flex-start !important;
+
+        margin-top: 8px !important;
+      }
+
+      .tn-icon-btn {
+        width: 31px !important;
+        height: 31px !important;
+
+        min-width: 31px !important;
+      }
+
+      .tn-card h3 {
+        font-size: 14px !important;
+        line-height: 20px !important;
+      }
+
+      .tn-description {
+        font-size: 11px !important;
+        line-height: 17px !important;
+      }
+
+      .tn-meta {
+        flex-direction: column !important;
+
+        gap: 3px !important;
+
+        font-size: 10px !important;
+      }
+
+      .tn-card-footer {
+        grid-column: 1 / -1 !important;
+
+        min-width: 0 !important;
+
+        flex-direction: row !important;
+
+        align-items: center !important;
+        justify-content: space-between !important;
+
+        gap: 8px !important;
+
+        padding-top: 8px !important;
+
+        border-top: 1px solid #eeeeee !important;
+
+        text-align: left !important;
+      }
+
+
+      /* FORM */
+
+      .tn-form-header {
+        display: block !important;
+
+        width: 100% !important;
+
+        margin-bottom: 14px !important;
+      }
+
+      .tn-form-header .tn-back-btn {
+        width: 100% !important;
+
+        margin-top: 10px !important;
+      }
+
+      .tn-form-header h1 {
+        font-size: 22px !important;
+        line-height: 28px !important;
+      }
+
+      #teacherNoticeForm {
+        padding: 13px !important;
+
+        border-radius: 10px !important;
+      }
+
+      .tn-form-grid {
+        grid-template-columns:
+          minmax(0, 1fr) !important;
+
+        gap: 13px !important;
+      }
+
+      .tn-form-group.full {
+        grid-column: auto !important;
+      }
+
+      .tn-form-actions {
+        flex-direction: column-reverse !important;
+
+        align-items: stretch !important;
+
+        gap: 8px !important;
+      }
+
+      .tn-form-actions button {
+        width: 100% !important;
+
+        min-width: 0 !important;
+      }
+
+
+      /* DETAIL */
+
+      .tn-detail-header {
+        display: block !important;
+
+        width: 100% !important;
+      }
+
+      .tn-detail-header > .tn-back-btn {
+        width: 100% !important;
+
+        margin-bottom: 9px !important;
+      }
+
+      .tn-detail-actions {
+        width: 100% !important;
+
+        display: grid !important;
+
+        grid-template-columns:
+          minmax(0, 1fr)
+          minmax(0, 1fr) !important;
+
+        gap: 8px !important;
+      }
+
+      .tn-detail-actions button {
+        width: 100% !important;
+
+        min-width: 0 !important;
+      }
+
+      .tn-detail-card {
+        padding: 23px 13px !important;
+      }
+
+      .tn-detail-icon {
+        font-size: 43px !important;
+      }
+
+      .tn-detail-card h1 {
+        font-size: 20px !important;
+        line-height: 27px !important;
+      }
+
+      .tn-detail-meta {
+        flex-direction: column !important;
+
+        gap: 5px !important;
+      }
+
+    }
+
+
+    /* ================================
+       SMALL MOBILE
+    ================================= */
+
+    @media (max-width: 430px) {
+
+      .teacher-notices-page {
+        padding: 10px !important;
+      }
+
+      .tn-header-actions {
+        grid-template-columns:
+          minmax(0, 1fr) !important;
+      }
+
+      .tn-header-actions button {
+        width: 100% !important;
+      }
+
+      .tn-stats {
+        grid-template-columns:
+          minmax(0, 1fr) !important;
+      }
+
+      .tn-card {
+        grid-template-columns:
+          36px minmax(0, 1fr) !important;
+
+        padding: 10px !important;
+      }
+
+      .tn-notice-icon {
+        width: 34px !important;
+        height: 34px !important;
+
+        font-size: 16px !important;
+      }
+
+      .tn-card-footer {
+        flex-direction: column !important;
+
+        align-items: flex-start !important;
+      }
+
+      .tn-detail-actions {
+        grid-template-columns:
+          minmax(0, 1fr) !important;
+      }
+
+    }
+
+  `;
+
+  document.head.appendChild(style);
+}
+
+
+/* =========================================================
    HELPERS
 ========================================================= */
 
@@ -24,7 +1377,10 @@ function saveNotices() {
 
 
 function generateId() {
-  return Date.now() + Math.floor(Math.random() * 1000);
+  return (
+    Date.now() +
+    Math.floor(Math.random() * 1000)
+  );
 }
 
 
@@ -39,7 +1395,6 @@ function escapeHTML(value = "") {
 
 
 function formatDate(dateValue) {
-
   if (!dateValue) {
     return "";
   }
@@ -50,11 +1405,14 @@ function formatDate(dateValue) {
     return dateValue;
   }
 
-  return date.toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric"
-  });
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    }
+  );
 }
 
 
@@ -64,26 +1422,25 @@ function formatDate(dateValue) {
 
 export function TeacherNotices() {
 
+  loadTeacherNoticesCSS();
+
   editingNoticeId = null;
 
   return `
+
     <div class="dashboard-main teacher-notices-page">
 
-      <!-- HEADER -->
       <div class="tn-header">
 
         <div>
 
-          <h1>
-            📢 Notices
-          </h1>
+          <h1>📢 Notices</h1>
 
           <p>
             Create and manage notices for students
           </p>
 
         </div>
-
 
         <div class="tn-header-actions">
 
@@ -94,7 +1451,6 @@ export function TeacherNotices() {
           >
             ← Back to Dashboard
           </button>
-
 
           <button
             type="button"
@@ -108,19 +1464,13 @@ export function TeacherNotices() {
 
       </div>
 
-
-      <!-- STATS -->
       ${renderStats()}
 
-
-      <!-- TOOLBAR -->
       <div class="tn-toolbar">
 
         <div class="tn-search">
 
-          <span>
-            🔎
-          </span>
+          <span>🔎</span>
 
           <input
             type="search"
@@ -130,14 +1480,9 @@ export function TeacherNotices() {
 
         </div>
 
-
         <select id="tnClassFilter">
 
           <option value="">
-            All Classes
-          </option>
-
-          <option value="All Classes">
             All Classes
           </option>
 
@@ -169,8 +1514,11 @@ export function TeacherNotices() {
             Class 12
           </option>
 
-        </select>
+          <option value="All Classes">
+            All Classes
+          </option>
 
+        </select>
 
         <select id="tnCategoryFilter">
 
@@ -204,7 +1552,6 @@ export function TeacherNotices() {
 
         </select>
 
-
         <select id="tnStatusFilter">
 
           <option value="">
@@ -223,8 +1570,6 @@ export function TeacherNotices() {
 
       </div>
 
-
-      <!-- NOTICE CONTENT -->
       <div id="tnContent">
 
         ${renderNotices()}
@@ -232,6 +1577,7 @@ export function TeacherNotices() {
       </div>
 
     </div>
+
   `;
 }
 
@@ -242,22 +1588,18 @@ export function TeacherNotices() {
 
 function renderStats() {
 
-  const total =
-    notices.length;
-
+  const total = notices.length;
 
   const important =
     notices.filter(
       notice => notice.important
     ).length;
 
-
   const academic =
     notices.filter(
       notice =>
         notice.category === "Academic"
     ).length;
-
 
   const upcoming =
     notices.filter(notice => {
@@ -269,8 +1611,7 @@ function renderStats() {
       const noticeDate =
         new Date(notice.noticeDate);
 
-      const today =
-        new Date();
+      const today = new Date();
 
       today.setHours(
         0,
@@ -283,10 +1624,9 @@ function renderStats() {
 
     }).length;
 
-
   return `
-    <div class="tn-stats">
 
+    <div class="tn-stats">
 
       <div class="tn-stat-card">
 
@@ -308,7 +1648,6 @@ function renderStats() {
 
       </div>
 
-
       <div class="tn-stat-card">
 
         <div class="tn-stat-icon">
@@ -328,7 +1667,6 @@ function renderStats() {
         </div>
 
       </div>
-
 
       <div class="tn-stat-card">
 
@@ -350,7 +1688,6 @@ function renderStats() {
 
       </div>
 
-
       <div class="tn-stat-card">
 
         <div class="tn-stat-icon">
@@ -371,8 +1708,8 @@ function renderStats() {
 
       </div>
 
-
     </div>
+
   `;
 }
 
@@ -386,6 +1723,7 @@ function renderNotices(list = notices) {
   if (!list.length) {
 
     return `
+
       <div class="tn-empty">
 
         <div class="tn-empty-icon">
@@ -409,11 +1747,13 @@ function renderNotices(list = notices) {
         </button>
 
       </div>
+
     `;
+
   }
 
-
   return `
+
     <div class="tn-list">
 
       ${list.map(notice => {
@@ -423,20 +1763,17 @@ function renderNotices(list = notices) {
             notice.category
           );
 
-
         return `
+
           <div class="tn-card">
 
             <div class="tn-card-left">
 
               <div class="tn-notice-icon">
-
                 ${categoryIcon}
-
               </div>
 
             </div>
-
 
             <div class="tn-card-content">
 
@@ -447,13 +1784,10 @@ function renderNotices(list = notices) {
                   <div class="tn-badges">
 
                     <span class="tn-category-badge">
-
                       ${escapeHTML(
                         notice.category
                       )}
-
                     </span>
-
 
                     ${
                       notice.important
@@ -467,7 +1801,6 @@ function renderNotices(list = notices) {
 
                   </div>
 
-
                   <h3>
                     ${escapeHTML(
                       notice.title
@@ -475,7 +1808,6 @@ function renderNotices(list = notices) {
                   </h3>
 
                 </div>
-
 
                 <div class="tn-card-actions">
 
@@ -489,7 +1821,6 @@ function renderNotices(list = notices) {
                     👁️
                   </button>
 
-
                   <button
                     type="button"
                     class="tn-icon-btn"
@@ -499,7 +1830,6 @@ function renderNotices(list = notices) {
                   >
                     ✏️
                   </button>
-
 
                   <button
                     type="button"
@@ -515,16 +1845,12 @@ function renderNotices(list = notices) {
 
               </div>
 
-
               <p class="tn-description">
-
                 ${escapeHTML(
                   notice.description ||
                   "No description added."
                 )}
-
               </p>
-
 
               <div class="tn-meta">
 
@@ -535,6 +1861,18 @@ function renderNotices(list = notices) {
                   )}
                 </span>
 
+                ${
+                  notice.section
+                    ? `
+                      <span>
+                        Section
+                        ${escapeHTML(
+                          notice.section
+                        )}
+                      </span>
+                    `
+                    : ""
+                }
 
                 <span>
                   📅
@@ -542,7 +1880,6 @@ function renderNotices(list = notices) {
                     notice.noticeDate
                   )}
                 </span>
-
 
                 <span>
                   👨‍🏫
@@ -556,7 +1893,6 @@ function renderNotices(list = notices) {
 
             </div>
 
-
             <div class="tn-card-footer">
 
               <span>
@@ -565,7 +1901,6 @@ function renderNotices(list = notices) {
                   notice.createdAt
                 )}
               </span>
-
 
               <button
                 type="button"
@@ -579,11 +1914,13 @@ function renderNotices(list = notices) {
             </div>
 
           </div>
+
         `;
 
       }).join("")}
 
     </div>
+
   `;
 }
 
@@ -615,6 +1952,7 @@ function getCategoryIcon(category) {
       return "📢";
 
   }
+
 }
 
 
@@ -627,51 +1965,40 @@ function renderForm(notice = null) {
   editingNoticeId =
     notice?.id || null;
 
-
   const root =
     document.querySelector(
       ".teacher-notices-page"
     );
 
-
   if (!root) {
     return;
   }
 
-
   root.innerHTML = `
 
     <div class="tn-form-page">
-
-
-      <!-- FORM HEADER -->
 
       <div class="tn-form-header">
 
         <div>
 
           <h1>
-
             ${
               notice
                 ? "✏️ Edit Notice"
                 : "📢 Create New Notice"
             }
-
           </h1>
 
           <p>
-
             ${
               notice
                 ? "Update notice details"
                 : "Create a new notice for students"
             }
-
           </p>
 
         </div>
-
 
         <button
           type="button"
@@ -683,16 +2010,9 @@ function renderForm(notice = null) {
 
       </div>
 
-
-      <!-- FORM -->
-
       <form id="teacherNoticeForm">
 
-
         <div class="tn-form-grid">
-
-
-          <!-- TITLE -->
 
           <div class="tn-form-group full">
 
@@ -711,9 +2031,6 @@ function renderForm(notice = null) {
             />
 
           </div>
-
-
-          <!-- CLASS -->
 
           <div class="tn-form-group">
 
@@ -770,9 +2087,6 @@ function renderForm(notice = null) {
 
           </div>
 
-
-          <!-- SECTION -->
-
           <div class="tn-form-group">
 
             <label>
@@ -810,9 +2124,6 @@ function renderForm(notice = null) {
 
           </div>
 
-
-          <!-- CATEGORY -->
-
           <div class="tn-form-group">
 
             <label>
@@ -836,9 +2147,10 @@ function renderForm(notice = null) {
                 <option
                   value="${category}"
                   ${
-                    (notice?.category ||
-                    "General") ===
-                    category
+                    (
+                      notice?.category ||
+                      "General"
+                    ) === category
                       ? "selected"
                       : ""
                   }
@@ -851,9 +2163,6 @@ function renderForm(notice = null) {
             </select>
 
           </div>
-
-
-          <!-- NOTICE DATE -->
 
           <div class="tn-form-group">
 
@@ -875,9 +2184,6 @@ function renderForm(notice = null) {
 
           </div>
 
-
-          <!-- TEACHER NAME -->
-
           <div class="tn-form-group">
 
             <label>
@@ -895,9 +2201,6 @@ function renderForm(notice = null) {
             />
 
           </div>
-
-
-          <!-- IMPORTANT -->
 
           <div class="tn-form-group">
 
@@ -925,9 +2228,6 @@ function renderForm(notice = null) {
 
           </div>
 
-
-          <!-- DESCRIPTION -->
-
           <div class="tn-form-group full">
 
             <label>
@@ -945,9 +2245,6 @@ function renderForm(notice = null) {
             )}</textarea>
 
           </div>
-
-
-          <!-- OPTIONAL LINK -->
 
           <div class="tn-form-group full">
 
@@ -971,11 +2268,7 @@ function renderForm(notice = null) {
 
           </div>
 
-
         </div>
-
-
-        <!-- ACTIONS -->
 
         <div class="tn-form-actions">
 
@@ -987,22 +2280,18 @@ function renderForm(notice = null) {
             Cancel
           </button>
 
-
           <button
             type="submit"
             class="tn-primary-btn"
           >
-
             ${
               notice
                 ? "Update Notice"
                 : "Publish Notice"
             }
-
           </button>
 
         </div>
-
 
       </form>
 
@@ -1025,27 +2314,22 @@ function viewNotice(id) {
         String(id)
     );
 
-
   if (!notice) {
     return;
   }
-
 
   const root =
     document.querySelector(
       ".teacher-notices-page"
     );
 
-
   if (!root) {
     return;
   }
 
-
   root.innerHTML = `
 
     <div class="tn-detail-page">
-
 
       <div class="tn-detail-header">
 
@@ -1057,7 +2341,6 @@ function viewNotice(id) {
           ← Back to Notices
         </button>
 
-
         <div class="tn-detail-actions">
 
           <button
@@ -1068,7 +2351,6 @@ function viewNotice(id) {
           >
             ✏️ Edit
           </button>
-
 
           <button
             type="button"
@@ -1083,16 +2365,13 @@ function viewNotice(id) {
 
       </div>
 
-
       <div class="tn-detail-card">
-
 
         <div class="tn-detail-icon">
           ${getCategoryIcon(
             notice.category
           )}
         </div>
-
 
         <div class="tn-detail-badges">
 
@@ -1101,7 +2380,6 @@ function viewNotice(id) {
               notice.category
             )}
           </span>
-
 
           ${
             notice.important
@@ -1115,13 +2393,11 @@ function viewNotice(id) {
 
         </div>
 
-
         <h1>
           ${escapeHTML(
             notice.title
           )}
         </h1>
-
 
         <div class="tn-detail-meta">
 
@@ -1130,6 +2406,7 @@ function viewNotice(id) {
             ${escapeHTML(
               notice.className
             )}
+
             ${
               notice.section
                 ? ` - Section ${escapeHTML(
@@ -1139,14 +2416,12 @@ function viewNotice(id) {
             }
           </span>
 
-
           <span>
             📅
             ${formatDate(
               notice.noticeDate
             )}
           </span>
-
 
           <span>
             👨‍🏫
@@ -1158,7 +2433,6 @@ function viewNotice(id) {
 
         </div>
 
-
         <div class="tn-detail-description">
 
           ${escapeHTML(
@@ -1169,7 +2443,6 @@ function viewNotice(id) {
           )}
 
         </div>
-
 
         ${
           notice.link
@@ -1195,7 +2468,6 @@ function viewNotice(id) {
             : ""
         }
 
-
         <div class="tn-detail-footer">
 
           Notice created on
@@ -1204,7 +2476,6 @@ function viewNotice(id) {
           )}
 
         </div>
-
 
       </div>
 
@@ -1227,30 +2498,23 @@ function filterNotices() {
       .toLowerCase()
       .trim() || "";
 
-
   const classFilter =
     document
       .getElementById("tnClassFilter")
       ?.value || "";
-
 
   const categoryFilter =
     document
       .getElementById("tnCategoryFilter")
       ?.value || "";
 
-
   const statusFilter =
     document
       .getElementById("tnStatusFilter")
       ?.value || "";
 
-
   let filtered =
     [...notices];
-
-
-  /* SEARCH */
 
   if (search) {
 
@@ -1277,9 +2541,6 @@ function filterNotices() {
 
   }
 
-
-  /* CLASS */
-
   if (classFilter) {
 
     filtered =
@@ -1290,9 +2551,6 @@ function filterNotices() {
       );
 
   }
-
-
-  /* CATEGORY */
 
   if (categoryFilter) {
 
@@ -1305,10 +2563,10 @@ function filterNotices() {
 
   }
 
-
-  /* STATUS */
-
-  if (statusFilter === "important") {
+  if (
+    statusFilter ===
+    "important"
+  ) {
 
     filtered =
       filtered.filter(
@@ -1318,8 +2576,10 @@ function filterNotices() {
 
   }
 
-
-  if (statusFilter === "normal") {
+  if (
+    statusFilter ===
+    "normal"
+  ) {
 
     filtered =
       filtered.filter(
@@ -1329,26 +2589,22 @@ function filterNotices() {
 
   }
 
-
   const content =
     document.getElementById(
       "tnContent"
     );
 
-
   if (!content) {
     return;
   }
 
-
   content.innerHTML =
     renderNotices(filtered);
-
 }
 
 
 /* =========================================================
-   DELETE NOTICE
+   DELETE
 ========================================================= */
 
 function deleteNotice(id) {
@@ -1360,22 +2616,18 @@ function deleteNotice(id) {
         String(id)
     );
 
-
   if (!notice) {
     return;
   }
-
 
   const confirmed =
     window.confirm(
       `Delete "${notice.title}"?`
     );
 
-
   if (!confirmed) {
     return;
   }
-
 
   notices =
     notices.filter(
@@ -1384,12 +2636,9 @@ function deleteNotice(id) {
         String(id)
     );
 
-
   saveNotices();
 
-
   renderTeacherNoticesPage();
-
 }
 
 
@@ -1404,11 +2653,9 @@ function renderTeacherNoticesPage() {
       ".teacher-notices-page"
     );
 
-
   if (!root) {
     return;
   }
-
 
   root.innerHTML = `
 
@@ -1426,7 +2673,6 @@ function renderTeacherNoticesPage() {
 
       </div>
 
-
       <div class="tn-header-actions">
 
         <button
@@ -1436,7 +2682,6 @@ function renderTeacherNoticesPage() {
         >
           ← Back to Dashboard
         </button>
-
 
         <button
           type="button"
@@ -1450,9 +2695,7 @@ function renderTeacherNoticesPage() {
 
     </div>
 
-
     ${renderStats()}
-
 
     <div class="tn-toolbar">
 
@@ -1470,14 +2713,9 @@ function renderTeacherNoticesPage() {
 
       </div>
 
-
       <select id="tnClassFilter">
 
         <option value="">
-          All Classes
-        </option>
-
-        <option value="All Classes">
           All Classes
         </option>
 
@@ -1509,8 +2747,11 @@ function renderTeacherNoticesPage() {
           Class 12
         </option>
 
-      </select>
+        <option value="All Classes">
+          All Classes
+        </option>
 
+      </select>
 
       <select id="tnCategoryFilter">
 
@@ -1544,7 +2785,6 @@ function renderTeacherNoticesPage() {
 
       </select>
 
-
       <select id="tnStatusFilter">
 
         <option value="">
@@ -1563,7 +2803,6 @@ function renderTeacherNoticesPage() {
 
     </div>
 
-
     <div id="tnContent">
 
       ${renderNotices()}
@@ -1580,20 +2819,21 @@ function renderTeacherNoticesPage() {
 
 export function setupTeacherNotices() {
 
+  loadTeacherNoticesCSS();
+
   if (
     window.teacherNoticesInitialized
   ) {
     return;
   }
 
-
   window.teacherNoticesInitialized =
     true;
 
 
-  /* =====================================================
-     CLICK EVENTS
-  ===================================================== */
+  /* ================================
+     CLICK
+  ================================= */
 
   document.addEventListener(
     "click",
@@ -1604,23 +2844,24 @@ export function setupTeacherNotices() {
           "[data-tn-action]"
         );
 
-
       if (!button) {
         return;
       }
 
+      if (
+        !document.querySelector(
+          ".teacher-notices-page"
+        )
+      ) {
+        return;
+      }
 
       const action =
         button.dataset.tnAction;
 
-
       const id =
         button.dataset.id;
 
-
-      /* -----------------------------------------------
-         BACK TO DASHBOARD
-      ----------------------------------------------- */
 
       if (
         action ===
@@ -1643,10 +2884,6 @@ export function setupTeacherNotices() {
       }
 
 
-      /* -----------------------------------------------
-         SHOW FORM
-      ----------------------------------------------- */
-
       if (
         action ===
         "show-form"
@@ -1657,10 +2894,6 @@ export function setupTeacherNotices() {
         return;
       }
 
-
-      /* -----------------------------------------------
-         BACK TO NOTICES
-      ----------------------------------------------- */
 
       if (
         action ===
@@ -1676,10 +2909,6 @@ export function setupTeacherNotices() {
       }
 
 
-      /* -----------------------------------------------
-         VIEW
-      ----------------------------------------------- */
-
       if (
         action ===
         "view"
@@ -1690,10 +2919,6 @@ export function setupTeacherNotices() {
         return;
       }
 
-
-      /* -----------------------------------------------
-         EDIT
-      ----------------------------------------------- */
 
       if (
         action ===
@@ -1707,7 +2932,6 @@ export function setupTeacherNotices() {
               String(id)
           );
 
-
         if (notice) {
           renderForm(notice);
         }
@@ -1715,10 +2939,6 @@ export function setupTeacherNotices() {
         return;
       }
 
-
-      /* -----------------------------------------------
-         DELETE
-      ----------------------------------------------- */
 
       if (
         action ===
@@ -1734,9 +2954,9 @@ export function setupTeacherNotices() {
   );
 
 
-  /* =====================================================
+  /* ================================
      FORM SUBMIT
-  ===================================================== */
+  ================================= */
 
   document.addEventListener(
     "submit",
@@ -1749,17 +2969,13 @@ export function setupTeacherNotices() {
         return;
       }
 
-
       event.preventDefault();
-
 
       const form =
         event.target;
 
-
       const formData =
         new FormData(form);
-
 
       const title =
         String(
@@ -1767,13 +2983,11 @@ export function setupTeacherNotices() {
           ""
         ).trim();
 
-
       const className =
         String(
           formData.get("className") ||
           ""
         ).trim();
-
 
       const section =
         String(
@@ -1781,13 +2995,11 @@ export function setupTeacherNotices() {
           ""
         ).trim();
 
-
       const category =
         String(
           formData.get("category") ||
           ""
         ).trim();
-
 
       const noticeDate =
         String(
@@ -1795,13 +3007,11 @@ export function setupTeacherNotices() {
           ""
         ).trim();
 
-
       const teacherName =
         String(
           formData.get("teacherName") ||
           ""
         ).trim();
-
 
       const description =
         String(
@@ -1809,20 +3019,16 @@ export function setupTeacherNotices() {
           ""
         ).trim();
 
-
       const link =
         String(
           formData.get("link") ||
           ""
         ).trim();
 
-
       const important =
         formData.get("important") ===
         "on";
 
-
-      /* VALIDATION */
 
       if (
         !title ||
@@ -1840,9 +3046,7 @@ export function setupTeacherNotices() {
       }
 
 
-      /* =================================================
-         EDIT EXISTING NOTICE
-      ================================================= */
+      /* EDIT */
 
       if (editingNoticeId) {
 
@@ -1852,7 +3056,6 @@ export function setupTeacherNotices() {
               String(item.id) ===
               String(editingNoticeId)
           );
-
 
         if (notice) {
 
@@ -1889,9 +3092,7 @@ export function setupTeacherNotices() {
       }
 
 
-      /* =================================================
-         CREATE NEW NOTICE
-      ================================================= */
+      /* CREATE */
 
       else {
 
@@ -1932,10 +3133,8 @@ export function setupTeacherNotices() {
 
       saveNotices();
 
-
       editingNoticeId =
         null;
-
 
       renderTeacherNoticesPage();
 
@@ -1943,9 +3142,9 @@ export function setupTeacherNotices() {
   );
 
 
-  /* =====================================================
+  /* ================================
      SEARCH
-  ===================================================== */
+  ================================= */
 
   document.addEventListener(
     "input",
@@ -1964,9 +3163,9 @@ export function setupTeacherNotices() {
   );
 
 
-  /* =====================================================
-     FILTERS
-  ===================================================== */
+  /* ================================
+     FILTER
+  ================================= */
 
   document.addEventListener(
     "change",

@@ -1,3 +1,5 @@
+import '../StudentDashboard.css'
+
 import { StudentProfile } from './StudentProfile.js'
 import { StudentClasses } from './StudentClasses.js'
 
@@ -32,598 +34,403 @@ import {
 } from './StudentMessages.js'
 
 
-/* =========================================
-   STUDENT DASHBOARD
-========================================= */
+function escapeHTML(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
 
-export function StudentDashboard(
-  studentName = "Student"
-) {
+
+function getStudentInitial(studentName = 'Student') {
+  const name = String(studentName).trim()
+  return name ? name.charAt(0).toUpperCase() : 'S'
+}
+
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
+
+function getStudentHeader(studentName) {
+  const safeName = escapeHTML(studentName)
+  const initial = getStudentInitial(studentName)
 
   return `
-    <div class="dashboard">
+    <header class="dashboard-header">
 
-      <!-- ================= SIDEBAR ================= -->
+      <button
+        type="button"
+        class="mobile-menu-btn"
+        id="studentMobileMenuBtn"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
 
-      <aside class="sidebar">
+      <div class="dashboard-header-title">
+        <h1>Student Portal</h1>
+        <p>Welcome back, ${safeName}</p>
+      </div>
 
-        <div class="sidebar-logo">
+      <div class="header-actions">
 
-          <div class="sidebar-icon">
-            🏫
+        <button
+          type="button"
+          class="notification-btn"
+          id="studentNotificationBtn"
+          aria-label="Notifications"
+        >
+          🔔
+          <span class="notification-dot"></span>
+        </button>
+
+        <div class="profile">
+
+          <div class="profile-avatar">
+            ${initial}
           </div>
 
-          <div>
-            <h2>Government School</h2>
-            <span>Student Portal</span>
+          <div class="profile-info">
+            <strong>${safeName}</strong>
+            <span>Class 10 - A</span>
           </div>
 
         </div>
 
+      </div>
 
-        <nav class="sidebar-nav">
-
-          <button
-            class="nav-item active"
-            data-page="dashboard"
-            type="button"
-          >
-            <span>🏠</span>
-            <strong>Dashboard</strong>
-          </button>
+    </header>
+  `
+}
 
 
-          <button
-            class="nav-item"
-            data-page="profile"
-            type="button"
-          >
-            <span>👨‍🎓</span>
-            <strong>My Profile</strong>
-          </button>
+function getStudentSidebar() {
+  return `
+    <div
+      class="sidebar-overlay"
+      id="studentSidebarOverlay"
+    ></div>
 
+    <aside
+      class="sidebar"
+      id="studentSidebar"
+    >
 
-          <button
-            class="nav-item"
-            data-page="classes"
-            type="button"
-          >
-            <span>📚</span>
-            <strong>My Classes</strong>
-          </button>
+      <div class="sidebar-logo">
 
-
-          <button
-            class="nav-item"
-            data-page="assignments"
-            type="button"
-          >
-            <span>📝</span>
-            <strong>Assignments</strong>
-          </button>
-
-
-          <button
-            class="nav-item"
-            data-page="attendance"
-            type="button"
-          >
-            <span>📅</span>
-            <strong>Attendance</strong>
-          </button>
-
-
-          <button
-            class="nav-item"
-            data-page="results"
-            type="button"
-          >
-            <span>📊</span>
-            <strong>Results</strong>
-          </button>
-
-
-          <button
-            class="nav-item"
-            data-page="notices"
-            type="button"
-          >
-            <span>📢</span>
-            <strong>Notices</strong>
-          </button>
-
-
-          <button
-            class="nav-item"
-            data-page="study-material"
-            type="button"
-          >
-            <span>📖</span>
-            <strong>Study Material</strong>
-          </button>
-
-
-          <button
-            class="nav-item"
-            data-page="messages"
-            type="button"
-          >
-            <span>💬</span>
-            <strong>Messages</strong>
-          </button>
-
-        </nav>
-
-
-        <div class="sidebar-bottom">
-
-          <button
-            class="nav-item logout"
-            id="logoutBtn"
-            type="button"
-          >
-            <span>🚪</span>
-            <strong>Logout</strong>
-          </button>
-
+        <div class="sidebar-icon">
+          🏫
         </div>
 
-      </aside>
+        <div class="sidebar-logo-text">
+          <h2>Government School</h2>
+          <span>Student Portal</span>
+        </div>
+
+        <button
+          type="button"
+          class="mobile-sidebar-close"
+          id="studentSidebarClose"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <button
+          type="button"
+          class="nav-item"
+          data-page="dashboard"
+        >
+          <span>🏠</span>
+          <strong>Dashboard</strong>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-page="profile"
+        >
+          <span>👨‍🎓</span>
+          <strong>My Profile</strong>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-page="classes"
+        >
+          <span>📚</span>
+          <strong>My Classes</strong>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-page="assignments"
+        >
+          <span>📝</span>
+          <strong>Assignments</strong>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-page="attendance"
+        >
+          <span>📅</span>
+          <strong>Attendance</strong>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-page="results"
+        >
+          <span>📊</span>
+          <strong>Results</strong>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-page="notices"
+        >
+          <span>📢</span>
+          <strong>Notices</strong>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-page="study-material"
+        >
+          <span>📖</span>
+          <strong>Study Material</strong>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          data-page="messages"
+        >
+          <span>💬</span>
+          <strong>Messages</strong>
+        </button>
+
+      </nav>
+
+      <div class="sidebar-bottom">
+
+        <button
+          type="button"
+          class="nav-item logout"
+          id="logoutBtn"
+        >
+          <span>🚪</span>
+          <strong>Logout</strong>
+        </button>
+
+      </div>
+
+    </aside>
+  `
+}
 
 
-      <!-- ================= MAIN ================= -->
+export function StudentDashboard(studentName = 'Student') {
+  return `
+    <div class="dashboard student-dashboard">
+
+      ${getStudentSidebar()}
 
       <main class="dashboard-main">
 
-
-        <!-- ================= HEADER ================= -->
-
-        <header class="dashboard-header">
-
-          <div>
-
-            <h1>
-              Student Dashboard
-            </h1>
-
-            <p>
-              Welcome back, ${studentName}
-            </p>
-
-          </div>
-
-
-          <div class="header-actions">
-
-            <button
-              class="notification-btn"
-              type="button"
-            >
-              🔔
-              <span class="notification-dot"></span>
-            </button>
-
-
-            <div class="profile">
-
-              <div class="profile-avatar">
-                ${studentName.charAt(0).toUpperCase()}
-              </div>
-
-
-              <div class="profile-info">
-
-                <strong>
-                  ${studentName}
-                </strong>
-
-                <span>
-                  Class 10 - A
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </header>
-
-
-        <!-- ================= CONTENT ================= -->
+        ${getStudentHeader(studentName)}
 
         <section class="dashboard-content">
 
-
-          <!-- ================= STATISTICS ================= -->
-
           <div class="stats-grid">
 
-
             <div class="stat-card">
-
-              <div class="stat-icon blue">
-                📅
-              </div>
-
+              <div class="stat-icon blue">📅</div>
               <div>
-
-                <span>
-                  Attendance
-                </span>
-
-                <h2>
-                  92%
-                </h2>
-
+                <span>Attendance</span>
+                <h2>92%</h2>
               </div>
-
-              <small class="positive">
-                Good
-              </small>
-
+              <small class="positive">Good</small>
             </div>
 
-
             <div class="stat-card">
-
-              <div class="stat-icon green">
-                📚
-              </div>
-
+              <div class="stat-icon green">📚</div>
               <div>
-
-                <span>
-                  Assignments
-                </span>
-
-                <h2>
-                  18
-                </h2>
-
+                <span>Assignments</span>
+                <h2>18</h2>
               </div>
-
-              <small>
-                Completed
-              </small>
-
+              <small>Completed</small>
             </div>
 
-
             <div class="stat-card">
-
-              <div class="stat-icon orange">
-                📝
-              </div>
-
+              <div class="stat-icon orange">📝</div>
               <div>
-
-                <span>
-                  Pending Work
-                </span>
-
-                <h2>
-                  4
-                </h2>
-
+                <span>Pending Work</span>
+                <h2>4</h2>
               </div>
-
-              <small>
-                Need attention
-              </small>
-
+              <small>Need attention</small>
             </div>
 
-
             <div class="stat-card">
-
-              <div class="stat-icon purple">
-                🏆
-              </div>
-
+              <div class="stat-icon purple">🏆</div>
               <div>
-
-                <span>
-                  Overall Result
-                </span>
-
-                <h2>
-                  86%
-                </h2>
-
+                <span>Overall Result</span>
+                <h2>86%</h2>
               </div>
-
-              <small class="positive">
-                Excellent
-              </small>
-
+              <small class="positive">Excellent</small>
             </div>
 
           </div>
 
-
-          <!-- ================= CLASSES + NOTICES ================= -->
-
           <div class="dashboard-grid">
-
-
-            <!-- TODAY'S CLASSES -->
 
             <div class="dashboard-card">
 
               <div class="card-header">
 
                 <div>
-
-                  <h2>
-                    Today's Classes
-                  </h2>
-
-                  <p>
-                    Your class schedule for today
-                  </p>
-
+                  <h2>Today's Classes</h2>
+                  <p>Your class schedule for today</p>
                 </div>
 
-
                 <button
+                  type="button"
                   class="view-btn"
                   data-page="classes"
-                  type="button"
                 >
                   View All
                 </button>
 
               </div>
-
 
               <div class="class-list">
 
-
                 <div class="class-item">
-
-                  <div class="subject-icon">
-                    📐
-                  </div>
+                  <div class="subject-icon">📐</div>
 
                   <div class="class-info">
-
-                    <strong>
-                      Mathematics
-                    </strong>
-
-                    <span>
-                      Mr. Sharma
-                    </span>
-
+                    <strong>Mathematics</strong>
+                    <span>Mr. Sharma</span>
                   </div>
 
                   <div class="class-time">
-
-                    <strong>
-                      09:00 AM
-                    </strong>
-
-                    <span>
-                      Room 101
-                    </span>
-
+                    <strong>09:00 AM</strong>
+                    <span>Room 101</span>
                   </div>
-
                 </div>
 
-
                 <div class="class-item">
-
-                  <div class="subject-icon">
-                    🔬
-                  </div>
+                  <div class="subject-icon">🔬</div>
 
                   <div class="class-info">
-
-                    <strong>
-                      Science
-                    </strong>
-
-                    <span>
-                      Mrs. Verma
-                    </span>
-
+                    <strong>Science</strong>
+                    <span>Mrs. Verma</span>
                   </div>
 
                   <div class="class-time">
-
-                    <strong>
-                      10:00 AM
-                    </strong>
-
-                    <span>
-                      Lab 1
-                    </span>
-
+                    <strong>10:00 AM</strong>
+                    <span>Lab 1</span>
                   </div>
-
                 </div>
 
-
                 <div class="class-item">
-
-                  <div class="subject-icon">
-                    💻
-                  </div>
+                  <div class="subject-icon">💻</div>
 
                   <div class="class-info">
-
-                    <strong>
-                      Computer Science
-                    </strong>
-
-                    <span>
-                      Mr. Patel
-                    </span>
-
+                    <strong>Computer Science</strong>
+                    <span>Mr. Patel</span>
                   </div>
 
                   <div class="class-time">
-
-                    <strong>
-                      11:00 AM
-                    </strong>
-
-                    <span>
-                      Computer Lab
-                    </span>
-
+                    <strong>11:00 AM</strong>
+                    <span>Computer Lab</span>
                   </div>
-
                 </div>
 
-
                 <div class="class-item">
-
-                  <div class="subject-icon">
-                    📖
-                  </div>
+                  <div class="subject-icon">📖</div>
 
                   <div class="class-info">
-
-                    <strong>
-                      English
-                    </strong>
-
-                    <span>
-                      Mrs. Singh
-                    </span>
-
+                    <strong>English</strong>
+                    <span>Mrs. Singh</span>
                   </div>
 
                   <div class="class-time">
-
-                    <strong>
-                      01:00 PM
-                    </strong>
-
-                    <span>
-                      Room 104
-                    </span>
-
+                    <strong>01:00 PM</strong>
+                    <span>Room 104</span>
                   </div>
-
                 </div>
-
 
               </div>
 
             </div>
-
-
-            <!-- ================= NOTICES ================= -->
 
             <div class="dashboard-card">
 
               <div class="card-header">
 
                 <div>
-
-                  <h2>
-                    Latest Notices
-                  </h2>
-
-                  <p>
-                    School announcements
-                  </p>
-
+                  <h2>Latest Notices</h2>
+                  <p>School announcements</p>
                 </div>
 
-
                 <button
+                  type="button"
                   class="view-btn"
                   data-page="notices"
-                  type="button"
                 >
                   View All
                 </button>
 
               </div>
 
-
               <div class="notice-list">
 
-
                 <div class="notice-item">
-
-                  <div class="notice-icon">
-                    📢
-                  </div>
-
+                  <div class="notice-icon">📢</div>
                   <div>
-
-                    <strong>
-                      Annual Sports Day
-                    </strong>
-
-                    <p>
-                      Sports day will be held next week.
-                    </p>
-
-                    <span>
-                      2 hours ago
-                    </span>
-
+                    <strong>Annual Sports Day</strong>
+                    <p>Sports day will be held next week.</p>
+                    <span>2 hours ago</span>
                   </div>
-
                 </div>
 
-
                 <div class="notice-item">
-
-                  <div class="notice-icon">
-                    📚
-                  </div>
-
+                  <div class="notice-icon">📚</div>
                   <div>
-
-                    <strong>
-                      Exam Schedule Released
-                    </strong>
-
-                    <p>
-                      Check the examination timetable.
-                    </p>
-
-                    <span>
-                      Yesterday
-                    </span>
-
+                    <strong>Exam Schedule Released</strong>
+                    <p>Check the examination timetable.</p>
+                    <span>Yesterday</span>
                   </div>
-
                 </div>
 
-
                 <div class="notice-item">
-
-                  <div class="notice-icon">
-                    🏫
-                  </div>
-
+                  <div class="notice-icon">🏫</div>
                   <div>
-
-                    <strong>
-                      School Holiday
-                    </strong>
-
-                    <p>
-                      School will remain closed tomorrow.
-                    </p>
-
-                    <span>
-                      2 days ago
-                    </span>
-
+                    <strong>School Holiday</strong>
+                    <p>School will remain closed tomorrow.</p>
+                    <span>2 days ago</span>
                   </div>
-
                 </div>
-
 
               </div>
 
@@ -631,612 +438,738 @@ export function StudentDashboard(
 
           </div>
 
-
-          <!-- ================= ASSIGNMENTS + QUICK ACTIONS ================= -->
-
           <div class="dashboard-grid">
-
-
-            <!-- ASSIGNMENTS -->
 
             <div class="dashboard-card">
 
               <div class="card-header">
 
                 <div>
-
-                  <h2>
-                    Recent Assignments
-                  </h2>
-
-                  <p>
-                    Track your assignments
-                  </p>
-
+                  <h2>Recent Assignments</h2>
+                  <p>Track your assignments</p>
                 </div>
 
-
                 <button
+                  type="button"
                   class="view-btn"
                   data-page="assignments"
-                  type="button"
                 >
                   View All
                 </button>
 
               </div>
 
-
               <div class="assignment-list">
 
-
                 <div class="assignment-item">
-
                   <div>
-
-                    <strong>
-                      Mathematics Chapter 5
-                    </strong>
-
-                    <span>
-                      Due: 28 Aug 2026
-                    </span>
-
+                    <strong>Mathematics Chapter 5</strong>
+                    <span>Due: 28 Aug 2026</span>
                   </div>
-
-                  <span class="status pending">
-                    Pending
-                  </span>
-
+                  <span class="status pending">Pending</span>
                 </div>
 
-
                 <div class="assignment-item">
-
                   <div>
-
-                    <strong>
-                      Science Project
-                    </strong>
-
-                    <span>
-                      Due: 30 Aug 2026
-                    </span>
-
+                    <strong>Science Project</strong>
+                    <span>Due: 30 Aug 2026</span>
                   </div>
-
-                  <span class="status submitted">
-                    Submitted
-                  </span>
-
+                  <span class="status submitted">Submitted</span>
                 </div>
 
-
                 <div class="assignment-item">
-
                   <div>
-
-                    <strong>
-                      English Essay
-                    </strong>
-
-                    <span>
-                      Due: 02 Sep 2026
-                    </span>
-
+                    <strong>English Essay</strong>
+                    <span>Due: 02 Sep 2026</span>
                   </div>
-
-                  <span class="status pending">
-                    Pending
-                  </span>
-
+                  <span class="status pending">Pending</span>
                 </div>
-
 
               </div>
 
             </div>
 
-
-            <!-- QUICK ACTIONS -->
-
             <div class="dashboard-card">
 
               <div class="card-header">
-
                 <div>
-
-                  <h2>
-                    Quick Actions
-                  </h2>
-
-                  <p>
-                    Frequently used options
-                  </p>
-
+                  <h2>Quick Actions</h2>
+                  <p>Frequently used options</p>
                 </div>
-
               </div>
-
 
               <div class="quick-actions">
 
-
                 <button
-                  data-page="attendance"
                   type="button"
+                  data-page="attendance"
                 >
                   <span>📅</span>
                   Attendance
                 </button>
 
-
                 <button
-                  data-page="results"
                   type="button"
+                  data-page="results"
                 >
                   <span>📊</span>
                   Results
                 </button>
 
-
                 <button
-                  data-page="study-material"
                   type="button"
+                  data-page="study-material"
                 >
                   <span>📚</span>
                   Study Material
                 </button>
 
-
                 <button
-                  data-page="notices"
                   type="button"
+                  data-page="notices"
                 >
                   <span>📢</span>
                   Notices
                 </button>
-
 
               </div>
 
             </div>
 
           </div>
-
 
         </section>
 
       </main>
 
     </div>
-  `;
+  `
 }
 
 
-/* =========================================
-   STUDENT NAVIGATION
-========================================= */
+function openStudentMobileMenu() {
+  const sidebar =
+    document.getElementById(
+      'studentSidebar'
+    )
 
-export function setupStudentNavigation(
-  studentName = "Student"
+  const overlay =
+    document.getElementById(
+      'studentSidebarOverlay'
+    )
+
+  const button =
+    document.getElementById(
+      'studentMobileMenuBtn'
+    )
+
+  if (sidebar) {
+    sidebar.classList.add(
+      'mobile-open'
+    )
+  }
+
+  if (overlay) {
+    overlay.classList.add(
+      'active'
+    )
+  }
+
+  if (button) {
+    button.setAttribute(
+      'aria-expanded',
+      'true'
+    )
+  }
+
+  document.body.classList.add(
+    'student-menu-open'
+  )
+}
+
+
+function closeStudentMobileMenu() {
+  const sidebar =
+    document.getElementById(
+      'studentSidebar'
+    )
+
+  const overlay =
+    document.getElementById(
+      'studentSidebarOverlay'
+    )
+
+  const button =
+    document.getElementById(
+      'studentMobileMenuBtn'
+    )
+
+  if (sidebar) {
+    sidebar.classList.remove(
+      'mobile-open'
+    )
+  }
+
+  if (overlay) {
+    overlay.classList.remove(
+      'active'
+    )
+  }
+
+  if (button) {
+    button.setAttribute(
+      'aria-expanded',
+      'false'
+    )
+  }
+
+  document.body.classList.remove(
+    'student-menu-open'
+  )
+}
+
+
+function setActiveStudentNav(page) {
+  document
+    .querySelectorAll(
+      '.student-dashboard .nav-item[data-page]'
+    )
+    .forEach((item) => {
+
+      item.classList.toggle(
+        'active',
+        item.dataset.page === page
+      )
+
+    })
+}
+
+
+async function loadStudentPage(
+  page,
+  studentName = 'Student'
 ) {
+  const app =
+    document.getElementById('app')
 
+  if (!app) {
+    return
+  }
 
-  /* ================= BACK FROM PAGES ================= */
+  closeStudentMobileMenu()
 
-  window.onstudentbackdashboard = null;
+  switch (page) {
 
-
-  window.addEventListener(
-    "student-back-dashboard",
-    () => {
-
-      const app =
-        document.querySelector("#app");
-
-
-      if (!app) {
-        return;
-      }
-
+    case 'dashboard':
 
       app.innerHTML =
-        StudentDashboard(studentName);
-
+        StudentDashboard(
+          studentName
+        )
 
       setupStudentNavigation(
         studentName
-      );
+      )
 
-    }
-  );
+      setActiveStudentNav(
+        'dashboard'
+      )
 
+      break
 
-  /* ================= SIDEBAR NAVIGATION ================= */
 
-  const navItems =
-    document.querySelectorAll(
-      ".nav-item[data-page]"
-    );
+    case 'profile':
 
+      app.innerHTML =
+        StudentPage(
+          studentName,
+          'My Profile'
+        )
 
-  navItems.forEach((item) => {
+      setupStudentNavigation(
+        studentName
+      )
 
-    item.addEventListener(
-      "click",
-      async () => {
+      setActiveStudentNav(
+        'profile'
+      )
 
-        const page =
-          item.dataset.page;
+      app.querySelector(
+        '.student-page-content'
+      ).innerHTML =
+        StudentProfile(
+          studentName
+        )
 
+      setupBackToDashboard(
+        studentName
+      )
 
-        /* ===== DASHBOARD ===== */
+      break
 
-        if (page === "dashboard") {
 
-          document.querySelector("#app").innerHTML =
-            StudentDashboard(studentName);
+    case 'classes':
 
-          setupStudentNavigation(
-            studentName
-          );
+      app.innerHTML =
+        StudentPage(
+          studentName,
+          'My Classes'
+        )
 
-          return;
-        }
+      setupStudentNavigation(
+        studentName
+      )
 
+      setActiveStudentNav(
+        'classes'
+      )
 
-        /* ===== PROFILE ===== */
+      app.querySelector(
+        '.student-page-content'
+      ).innerHTML =
+        StudentClasses(
+          studentName
+        )
 
-        if (page === "profile") {
+      setupBackToDashboard(
+        studentName
+      )
 
-          document.querySelector("#app").innerHTML =
-            StudentProfile(studentName);
+      break
 
-          setupBackToDashboard(
-            studentName
-          );
 
-          return;
-        }
+    case 'assignments':
 
+      app.innerHTML =
+        StudentPage(
+          studentName,
+          'Assignments'
+        )
 
-        /* ===== CLASSES ===== */
+      setupStudentNavigation(
+        studentName
+      )
 
-        if (page === "classes") {
+      setActiveStudentNav(
+        'assignments'
+      )
 
-          document.querySelector("#app").innerHTML =
-            StudentClasses(studentName);
+      app.querySelector(
+        '.student-page-content'
+      ).innerHTML =
+        Assignments(
+          studentName
+        )
 
-          setupBackToDashboard(
-            studentName
-          );
+      setupAssignmentNavigation(
+        studentName
+      )
 
-          return;
-        }
+      setupBackToDashboard(
+        studentName
+      )
 
+      break
 
-        /* ===== ASSIGNMENTS ===== */
 
-        if (page === "assignments") {
+    case 'attendance':
 
-          document.querySelector("#app").innerHTML =
-            Assignments(studentName);
+      app.innerHTML =
+        StudentPage(
+          studentName,
+          'Attendance'
+        )
 
-          setupAssignmentNavigation(
-            studentName
-          );
+      setupStudentNavigation(
+        studentName
+      )
 
-          return;
-        }
+      setActiveStudentNav(
+        'attendance'
+      )
 
+      app.querySelector(
+        '.student-page-content'
+      ).innerHTML =
+        StudentAttendance(
+          studentName
+        )
 
-        /* ===== ATTENDANCE ===== */
+      setupStudentAttendanceNavigation(
+        studentName
+      )
 
-        if (page === "attendance") {
+      setupBackToDashboard(
+        studentName
+      )
 
-          document.querySelector("#app").innerHTML =
-            StudentAttendance(studentName);
+      break
 
-          setupStudentAttendanceNavigation(
-            studentName
-          );
 
-          return;
-        }
+    case 'results':
 
+      app.innerHTML =
+        StudentPage(
+          studentName,
+          'Results'
+        )
 
-        /* ===== RESULTS ===== */
+      setupStudentNavigation(
+        studentName
+      )
 
-        if (page === "results") {
+      setActiveStudentNav(
+        'results'
+      )
 
-          document.querySelector("#app").innerHTML =
-            StudentResults(studentName);
+      app.querySelector(
+        '.student-page-content'
+      ).innerHTML =
+        StudentResults(
+          studentName
+        )
 
-          setupStudentResultsNavigation(
-            studentName
-          );
+      setupStudentResultsNavigation(
+        studentName
+      )
 
-          return;
-        }
+      setupBackToDashboard(
+        studentName
+      )
 
+      break
 
-        /* ===== NOTICES ===== */
 
-        if (page === "notices") {
+    case 'notices':
 
-          document.querySelector("#app").innerHTML =
-            StudentNotices(studentName);
+      app.innerHTML =
+        StudentPage(
+          studentName,
+          'Notices'
+        )
 
-          setupStudentNoticesNavigation(
-            studentName
-          );
+      setupStudentNavigation(
+        studentName
+      )
 
-          return;
-        }
+      setActiveStudentNav(
+        'notices'
+      )
 
+      app.querySelector(
+        '.student-page-content'
+      ).innerHTML =
+        StudentNotices(
+          studentName
+        )
 
-        /* ===== STUDY MATERIAL ===== */
+      setupStudentNoticesNavigation(
+        studentName
+      )
 
-        if (page === "study-material") {
+      setupBackToDashboard(
+        studentName
+      )
 
-          document.querySelector("#app").innerHTML =
-            StudentStudyMaterial(studentName);
+      break
 
-          setupStudentStudyMaterialNavigation(
-            studentName
-          );
 
-          return;
-        }
+    case 'study-material':
 
+      app.innerHTML =
+        StudentPage(
+          studentName,
+          'Study Material'
+        )
 
-        /* ===== MESSAGES ===== */
+      setupStudentNavigation(
+        studentName
+      )
 
-        if (page === "messages") {
+      setActiveStudentNav(
+        'study-material'
+      )
 
-          document.querySelector("#app").innerHTML =
-            StudentMessages(studentName);
+      app.querySelector(
+        '.student-page-content'
+      ).innerHTML =
+        StudentStudyMaterial(
+          studentName
+        )
 
-          setupStudentMessagesNavigation(
-            studentName
-          );
+      setupStudentStudyMaterialNavigation(
+        studentName
+      )
 
-          return;
-        }
+      setupBackToDashboard(
+        studentName
+      )
 
-      }
-    );
+      break
 
-  });
 
+    case 'messages':
 
-  /* ================= LOGOUT ================= */
+      app.innerHTML =
+        StudentPage(
+          studentName,
+          'Messages'
+        )
 
-  const logoutBtn =
-    document.querySelector(
-      "#logoutBtn"
-    );
+      setupStudentNavigation(
+        studentName
+      )
 
+      setActiveStudentNav(
+        'messages'
+      )
 
-  if (logoutBtn) {
+      app.querySelector(
+        '.student-page-content'
+      ).innerHTML =
+        StudentMessages(
+          studentName
+        )
 
-    logoutBtn.addEventListener(
-      "click",
-      () => {
+      setupStudentMessagesNavigation(
+        studentName
+      )
 
-        const confirmLogout =
-          confirm(
-            "Are you sure you want to logout?"
-          );
+      setupBackToDashboard(
+        studentName
+      )
 
+      break
 
-        if (confirmLogout) {
 
-          window.location.reload();
+    default:
 
-        }
+      app.innerHTML =
+        StudentDashboard(
+          studentName
+        )
 
-      }
-    );
+      setupStudentNavigation(
+        studentName
+      )
 
+      setActiveStudentNav(
+        'dashboard'
+      )
   }
 
+  closeStudentMobileMenu()
 
-  /* ================= QUICK ACTIONS ================= */
-
-  const quickButtons =
-    document.querySelectorAll(
-      ".quick-actions button[data-page]"
-    );
-
-
-  quickButtons.forEach((button) => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        const page =
-          button.dataset.page;
-
-
-        /* ===== ATTENDANCE ===== */
-
-        if (page === "attendance") {
-
-          document.querySelector("#app").innerHTML =
-            StudentAttendance(studentName);
-
-          setupStudentAttendanceNavigation(
-            studentName
-          );
-
-          return;
-        }
-
-
-        /* ===== RESULTS ===== */
-
-        if (page === "results") {
-
-          document.querySelector("#app").innerHTML =
-            StudentResults(studentName);
-
-          setupStudentResultsNavigation(
-            studentName
-          );
-
-          return;
-        }
-
-
-        /* ===== NOTICES ===== */
-
-        if (page === "notices") {
-
-          document.querySelector("#app").innerHTML =
-            StudentNotices(studentName);
-
-          setupStudentNoticesNavigation(
-            studentName
-          );
-
-          return;
-        }
-
-
-        /* ===== STUDY MATERIAL ===== */
-
-        if (page === "study-material") {
-
-          document.querySelector("#app").innerHTML =
-            StudentStudyMaterial(studentName);
-
-          setupStudentStudyMaterialNavigation(
-            studentName
-          );
-
-          return;
-        }
-
-      }
-    );
-
-  });
-
-
-  /* ================= VIEW ALL BUTTONS ================= */
-
-  const viewButtons =
-    document.querySelectorAll(
-      ".view-btn[data-page]"
-    );
-
-
-  viewButtons.forEach((button) => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        const page =
-          button.dataset.page;
-
-
-        /* ===== CLASSES ===== */
-
-        if (page === "classes") {
-
-          document.querySelector("#app").innerHTML =
-            StudentClasses(studentName);
-
-          setupBackToDashboard(
-            studentName
-          );
-
-          return;
-        }
-
-
-        /* ===== ASSIGNMENTS ===== */
-
-        if (page === "assignments") {
-
-          document.querySelector("#app").innerHTML =
-            Assignments(studentName);
-
-          setupAssignmentNavigation(
-            studentName
-          );
-
-          return;
-        }
-
-
-        /* ===== NOTICES ===== */
-
-        if (page === "notices") {
-
-          document.querySelector("#app").innerHTML =
-            StudentNotices(studentName);
-
-          setupStudentNoticesNavigation(
-            studentName
-          );
-
-          return;
-        }
-
-      }
-    );
-
-  });
-
+  scrollToTop()
 }
 
 
-/* =========================================
-   BACK TO DASHBOARD
-========================================= */
-
-export function setupBackToDashboard(
-  studentName = "Student"
+function StudentPage(
+  studentName,
+  title
 ) {
+  return `
+    <div class="dashboard student-dashboard">
 
+      ${getStudentSidebar()}
+
+      <main class="dashboard-main">
+
+        ${getStudentHeader(studentName)}
+
+        <section class="dashboard-content">
+
+          <div class="student-page-content">
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+  `
+}
+
+
+function setupPageNavigation(studentName) {
+  const buttons =
+    document.querySelectorAll(
+      '.student-dashboard [data-page]'
+    )
+
+  buttons.forEach((button) => {
+
+    button.onclick = async (event) => {
+
+      event.preventDefault()
+      event.stopPropagation()
+
+      const page =
+        button.dataset.page
+
+      if (!page) {
+        return
+      }
+
+      closeStudentMobileMenu()
+
+      await loadStudentPage(
+        page,
+        studentName
+      )
+
+      closeStudentMobileMenu()
+    }
+  })
+}
+
+
+function setupBackToDashboard(studentName) {
   const backButton =
-    document.querySelector(
-      "#backToDashboard"
-    );
-
+    document.getElementById(
+      'backToDashboard'
+    )
 
   if (!backButton) {
-    return;
+    return
+  }
+
+  backButton.onclick = async (event) => {
+
+    event.preventDefault()
+    event.stopPropagation()
+
+    await loadStudentPage(
+      'dashboard',
+      studentName
+    )
+  }
+}
+
+
+export function setupStudentNavigation(
+  studentName = 'Student'
+) {
+
+  const menuButton =
+    document.getElementById(
+      'studentMobileMenuBtn'
+    )
+
+  if (menuButton) {
+
+    menuButton.onclick = (event) => {
+
+      event.preventDefault()
+      event.stopPropagation()
+
+      const sidebar =
+        document.getElementById(
+          'studentSidebar'
+        )
+
+      if (
+        sidebar &&
+        sidebar.classList.contains(
+          'mobile-open'
+        )
+      ) {
+        closeStudentMobileMenu()
+      } else {
+        openStudentMobileMenu()
+      }
+    }
   }
 
 
-  backButton.addEventListener(
-    "click",
-    () => {
+  const closeButton =
+    document.getElementById(
+      'studentSidebarClose'
+    )
 
-      const app =
-        document.querySelector("#app");
+  if (closeButton) {
+
+    closeButton.onclick = (event) => {
+
+      event.preventDefault()
+      event.stopPropagation()
+
+      closeStudentMobileMenu()
+    }
+  }
 
 
-      if (!app) {
-        return;
+  const overlay =
+    document.getElementById(
+      'studentSidebarOverlay'
+    )
+
+  if (overlay) {
+
+    overlay.onclick = (event) => {
+
+      event.preventDefault()
+      event.stopPropagation()
+
+      closeStudentMobileMenu()
+    }
+  }
+
+
+  setupPageNavigation(
+    studentName
+  )
+
+
+  const logoutButton =
+    document.getElementById(
+      'logoutBtn'
+    )
+
+  if (logoutButton) {
+
+    logoutButton.onclick = (event) => {
+
+      event.preventDefault()
+      event.stopPropagation()
+
+      closeStudentMobileMenu()
+
+      const confirmed =
+        window.confirm(
+          'Are you sure you want to logout?'
+        )
+
+      if (!confirmed) {
+        return
       }
 
+      const keys = [
+        'studentToken',
+        'studentUser',
+        'studentData',
+        'studentInfo',
+        'studentName'
+      ]
 
-      app.innerHTML =
-        StudentDashboard(studentName);
+      keys.forEach((key) => {
+        localStorage.removeItem(key)
+        sessionStorage.removeItem(key)
+      })
 
-
-      setupStudentNavigation(
-        studentName
-      );
-
+      window.location.reload()
     }
-  );
+  }
 
+
+  document.onkeydown = (event) => {
+
+    if (event.key === 'Escape') {
+      closeStudentMobileMenu()
+    }
+  }
+
+
+  closeStudentMobileMenu()
 }
